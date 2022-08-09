@@ -2,7 +2,9 @@ package com.memorybox.service;
 
 import com.memorybox.dto.QuestionFormDto;
 import com.memorybox.dto.QuestionSearchDto;
+import com.memorybox.entity.Member;
 import com.memorybox.entity.Question;
+import com.memorybox.repository.MemberRepository;
 import com.memorybox.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import javax.persistence.EntityNotFoundException;
 public class QuestionService {
 
     QuestionRepository questionRepository;
+    MemberRepository memberRepository;
 
     public Long saveQuestion(QuestionFormDto questionFormDto) throws Exception{
         Question question = questionFormDto.createQuestion();
@@ -49,14 +52,14 @@ public class QuestionService {
 
     @Transactional(readOnly = true)
     public boolean validateQuestion(Long questionId, String email){
-//        Member curMember = memberRepository.findByEmail(email);
-//        Question question = questionRepository.findById(questionId)
-//                .orElseThrow(EntityExistsException::new);
-//        Member savedMember = cartItem.getCart().getMember();
-//
-//        if(!StringUtils.equals(curMember.getEmail(), savedMember.getEmail())){
-//            return false;
-//        }
+        Member curMember = memberRepository.findByEmail(email);
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(EntityExistsException::new);
+        Member savedMember = memberRepository.findByEmail(question.getCreatedBy());
+
+        if(!StringUtils.equals(curMember.getEmail(), savedMember.getEmail())){
+            return false;
+        }
         return true;
     }
 
