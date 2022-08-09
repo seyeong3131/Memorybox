@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>문제지 작성 폼</title>
+</head>
+
+<style>
+    #container{
+                width:520px;
+                border:1px solid black;
+                padding:20px 40px;
+                margin:0 auto;
+                }
+    field {margin-bottom:15px}
+    legend{ font- weight:bold;}
+            ul {list-style-type: none;}
+            li {line-height:30px;}
+</style>
+<body>
+<div id="container">
+    <h1>문제지 등록</h1>
+    <hr>
+    <form th:object="${queBundleFormDto}" method="post">
+        <h4>문제지 이름</h4>
+        <ul>
+            <li>
+                <input th:field="*{queBundleNm}" type="text" autofocus placeholder="이름을 입력하세요">
+            </li>
+        </ul>
+        <h4>카테고리</h4>
+        <ul>
+            <li th:each="qCate : ${qCategory}">
+                <input type="radio" th:field="*{qCategory}" th:value="${qCate.name()}" >
+                <label th:for="${#ids.prev('qCategory')}" th:text="${qCate.description}"></label>
+            </li>
+        </ul>
+        <div>
+            <input type="submit" value="저장">
+            <input type="reset" value="다시쓰기">
+        </div>
+    </form>
+
+
+</div>
+
+</body>
+</html>
