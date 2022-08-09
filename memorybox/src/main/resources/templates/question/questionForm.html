@@ -85,6 +85,14 @@
 
         <input type="hidden" th:field="*{id}">
 
+        <div class="form-group">
+            <select th:field="*{queBundleDto}" class="custom-select">
+                <div th:each="queBundle : ${queBundleList}">
+                    <option th:if="${not #strings.isEmpty(queBundle.queBundleNm)}" th:value="${queBundle.queBundleNm}" th:text="${queBundle.queBundleNm}"></option>
+                </div>
+            </select>
+        </div>
+
 
         <div class="input-group">
             <div class="input-group-prepend">

@@ -1,8 +1,10 @@
 package com.memorybox.controller;
 
+import com.memorybox.dto.QueBundleFormDto;
 import com.memorybox.dto.QuestionFormDto;
 import com.memorybox.dto.QuestionSearchDto;
 import com.memorybox.entity.Question;
+import com.memorybox.service.QueBundleService;
 import com.memorybox.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,9 +28,11 @@ import java.util.Optional;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final QueBundleService queBundleService;
 
     @GetMapping(value = "/admin/question/new")
     public String questionForm(Model model){
+        model.addAttribute("queBundleList",queBundleService.queBundleList());
         model.addAttribute("questionFormDto", new QuestionFormDto());
         return "question/questionForm";
     }
