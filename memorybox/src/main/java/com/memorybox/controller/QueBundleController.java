@@ -20,19 +20,19 @@ public class QueBundleController {
     @Autowired
     private QueBundleService queBundleService;
 
-    @GetMapping(value = "/user/availability/new")
+    @GetMapping(value = "/admin/queBundle/new")
     public String queBundleForm(Model model){
         model.addAttribute("queBundleFormDto", new QueBundleFormDto());
         return "queBundle/queBundleForm";
     }
 
 
-    @PostMapping(value = "/user/availability/new")
+    @PostMapping(value = "/admin/queBundle/new")
     public String queBundleNew(@Valid QueBundleFormDto queBundleFormDto, BindingResult bindingResult,
                                Model model){
             queBundleService.saveQueBundle(queBundleFormDto);
 
-        return "";
+        return "redirect:/";
     }
 
     @ModelAttribute("qCategory")

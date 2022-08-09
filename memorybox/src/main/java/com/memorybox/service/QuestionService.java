@@ -7,7 +7,6 @@ import com.memorybox.entity.Question;
 import com.memorybox.repository.MemberRepository;
 import com.memorybox.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
