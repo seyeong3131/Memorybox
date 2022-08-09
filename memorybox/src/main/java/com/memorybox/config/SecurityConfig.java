@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     페이지 권한 설정, 로그인 페이지 설정, 로그아웃 메소드
      */
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception{
 
         http.formLogin()
                 .loginPage("/members/login")
@@ -37,18 +37,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/");
 
         http.authorizeRequests()
-                .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
+                .mvcMatchers("/","/members/**","/item/**","/images/**").permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         http.exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
     }
-
     @Bean // Bean 객체 Spring이 관리하는 컨테이너에 들어가 있는 객체 새로 선언하지 않고 돌려 쓸 수 있다
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
