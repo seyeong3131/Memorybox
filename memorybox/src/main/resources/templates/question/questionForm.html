@@ -115,10 +115,16 @@
         <div th:unless="${#strings.isEmpty(questionFormDto.id)}" style="text-align : center">
             <button th:formaction="@{'/admin/question/'+${questionFormDto.id}}" type="submit" class="btn btn-primary">수정</button>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <button type="button"  th:data-id="${question.questionId}" onclick="deleteQuestion(this)">삭제</button>
 =======
             <button type="button" th:data-id="${question.questionId}" onclick="deleteQuestion(this)">삭제</button>
 >>>>>>> d9b8610cbc5db497afa11ae61219d7cdfe855d7e
+=======
+
+            <button type="button"  th:data-id="${question.questionId}" onclick="deleteQuestion(this)">삭제</button>
+
+>>>>>>> fa9de1a1e94f5138cf81293fd5ccd6c253063af7
         </div>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
