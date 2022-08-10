@@ -122,7 +122,7 @@
 
         <div th:unless="${#strings.isEmpty(queBundleFormDto.id)}" style="text-align : center">
             <button th:formaction="@{'/admin/queBundle/'+${queBundleFormDto.id}}" type="submit" class="btn btn-primary">수정</button>
-            <button type="button" aria-hidden="true" th:data-id="${queBundle.queBundleId}" onclick="deleteQueBundle(this)">삭제</button>
+            <button type="button"  th:data-id="${queBundle.queBundleId}" onclick="deleteQueBundle(this)">삭제</button>
         </div>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

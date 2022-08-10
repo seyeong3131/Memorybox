@@ -29,7 +29,6 @@ public class QueBundleController {
 
     private final QueBundleService queBundleService;
 
-
     @GetMapping(value = "/admin/queBundle/new")
     public String queBundleForm(Model model){
         model.addAttribute("queBundleFormDto", new QueBundleFormDto());
