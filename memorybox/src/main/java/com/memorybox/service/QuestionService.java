@@ -5,6 +5,7 @@ import com.memorybox.dto.QuestionSearchDto;
 import com.memorybox.entity.Member;
 import com.memorybox.entity.Question;
 import com.memorybox.repository.MemberRepository;
+import com.memorybox.repository.QueBundleRepository;
 import com.memorybox.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,8 +25,10 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
 
+    private final QueBundleRepository queBundleRepository;
+
     public Long saveQuestion(QuestionFormDto questionFormDto) throws Exception{
-        Question question = questionFormDto.createQuestion();
+        Question question = questionFormDto.createQuestion(queBundleRepository);
         questionRepository.save(question);
 
         return question.getId();

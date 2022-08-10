@@ -32,7 +32,7 @@ public class QuestionController {
 
     @GetMapping(value = "/admin/question/new")
     public String questionForm(Model model){
-        model.addAttribute("queBundleList",queBundleService.queBundleList());
+        model.addAttribute("queBundleNmList",queBundleService.queBundleNmList());
         model.addAttribute("questionFormDto", new QuestionFormDto());
         return "question/questionForm";
     }
