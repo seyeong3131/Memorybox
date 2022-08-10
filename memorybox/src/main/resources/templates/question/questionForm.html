@@ -85,6 +85,14 @@
 
         <input type="hidden" th:field="*{id}">
 
+        <div class="form-group">
+            <select th:field="*{queBundleDto}" class="custom-select">
+                <div th:each="queBundle : ${queBundleList}">
+                    <option th:if="${not #strings.isEmpty(queBundle.queBundleNm)}" th:value="${queBundle.queBundleNm}" th:text="${queBundle.queBundleNm}"></option>
+                </div>
+            </select>
+        </div>
+
 
         <div class="input-group">
             <div class="input-group-prepend">
@@ -106,7 +114,11 @@
         </div>
         <div th:unless="${#strings.isEmpty(questionFormDto.id)}" style="text-align : center">
             <button th:formaction="@{'/admin/question/'+${questionFormDto.id}}" type="submit" class="btn btn-primary">수정</button>
+<<<<<<< HEAD
             <button type="button"  th:data-id="${question.questionId}" onclick="deleteQuestion(this)">삭제</button>
+=======
+            <button type="button" th:data-id="${question.questionId}" onclick="deleteQuestion(this)">삭제</button>
+>>>>>>> d9b8610cbc5db497afa11ae61219d7cdfe855d7e
         </div>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
