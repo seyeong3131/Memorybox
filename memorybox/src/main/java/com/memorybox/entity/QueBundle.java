@@ -1,6 +1,10 @@
 package com.memorybox.entity;
 
 import com.memorybox.constant.QCategory;
+import com.memorybox.dto.QueBundleFormDto;
+import com.memorybox.dto.QuestionFormDto;
+import lombok.Data;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,9 +15,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name="que_bundle")
-public class QueBundle {
+
+public class QueBundle extends BaseEntity{
+
 
     @Id
     @Column(name="que_bundle_id")
@@ -26,9 +31,12 @@ public class QueBundle {
     @Enumerated(EnumType.STRING)
     private QCategory qCategory; // 카테고리
 
-    @OneToMany
-    @JoinColumn(name = "que_id")
-    private List<Question> questions;
+
+    public void updateQueBundle (QueBundleFormDto queBundleFormDto){
+        this.queBundleNm = queBundleFormDto.getQueBundleNm();
+        this.qCategory = queBundleFormDto.getQCategory();
+    }
+
 
 }
 
