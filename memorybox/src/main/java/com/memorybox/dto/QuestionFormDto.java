@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -17,6 +18,9 @@ public class QuestionFormDto {
 
     @NotBlank(message = "문제 뒷면 해설은 필수 입력값입니다.")
     private String queBackDetail;
+
+    @NotNull(message = "문제지 분류는 필수 입력값읍니다.")
+    private QueBundleDto queBundleDto;
 
     private static ModelMapper modelMapper = new ModelMapper();
     public Question createQuestion(){return modelMapper.map(this, Question.class);}

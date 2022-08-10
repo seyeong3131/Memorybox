@@ -38,6 +38,7 @@ public class QueBundleController {
 
 
     @PostMapping(value = "/admin/queBundle/new")
+
     public String queBundleNew(@Valid QueBundleFormDto queBundleFormDto, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
             return "queBundle/queBundleForm";
@@ -49,6 +50,7 @@ public class QueBundleController {
             model.addAttribute("errorMessage", "문제 등록 중 에러가 발생하였습니다.");
             return "queBundle/queBundleForm";
         }
+
         return "redirect:/";
     }
 
