@@ -65,7 +65,7 @@ public class QueBundleService {
                 .orElseThrow(EntityExistsException::new);
         queBundleRepository.delete(queBundle);
     }
-//    public List<QueBundle> queBundleList(){
-//        return queBundleRepository.findAll();
-//    }
+    public List<String> queBundleNmList(){
+        return queBundleRepository.findAllQueBundleNm();
+    }
 }
