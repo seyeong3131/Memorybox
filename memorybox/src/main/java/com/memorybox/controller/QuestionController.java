@@ -55,10 +55,12 @@ public class QuestionController {
     @GetMapping(value = "/admin/question/{que_id}")
     public String questionDtl(@PathVariable("que_id")Long questionId, Model model){
         try{
+            model.addAttribute("queBundleNmList",queBundleService.queBundleNmList());
             QuestionFormDto questionFormDto = questionService.getQuestionDto(questionId);
             model.addAttribute("questionFormDto", questionFormDto);
         }catch (Exception e){
             model.addAttribute("errorMessage", "존재하지 않는 문제입니다.");
+            model.addAttribute("queBundleNmList",queBundleService.queBundleNmList());
             model.addAttribute("questionFormDto", new QuestionFormDto());
             return "question/questionForm";
         }

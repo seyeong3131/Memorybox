@@ -29,7 +29,7 @@ public class QueBundleRepositoryCustomImpl implements QueBundleRepositoryCustom{
         if(StringUtils.equals("queBundleNm", searchBy)) {
             return QQueBundle.queBundle.queBundleNm.like("%"+searchQuery+"%");
         } else if(StringUtils.equals("createdBy", searchBy)) {
-            return QQueBundle.queBundle.createdBy.like("%"+searchBy+"%");
+            return QQueBundle.queBundle.createdBy.like("%"+searchQuery+"%");
         }
         return null;
     }
