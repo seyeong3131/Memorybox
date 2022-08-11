@@ -26,8 +26,9 @@ public class Question extends BaseEntity{
     @JoinColumn(name = "que_bundle_id")
     private QueBundle queBundle;
 
-    public void updateQuestion (QuestionFormDto questionFormDto){
+    public void updateQuestion (QuestionFormDto questionFormDto, QueBundle queBundle){
         this.queDetail = questionFormDto.getQueDetail();
         this.queBackDetail = questionFormDto.getQueBackDetail();
+        this.queBundle = queBundle;
     }
 }

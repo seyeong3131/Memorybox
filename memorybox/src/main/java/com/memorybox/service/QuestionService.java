@@ -3,6 +3,7 @@ package com.memorybox.service;
 import com.memorybox.dto.QuestionFormDto;
 import com.memorybox.dto.QuestionSearchDto;
 import com.memorybox.entity.Member;
+import com.memorybox.entity.QueBundle;
 import com.memorybox.entity.Question;
 import com.memorybox.repository.MemberRepository;
 import com.memorybox.repository.QueBundleRepository;
@@ -43,7 +44,8 @@ public class QuestionService {
 
     public Long updateQuestion(QuestionFormDto questionFormDto) throws Exception{
         Question question = questionRepository.findById(questionFormDto.getId()).orElseThrow(EntityNotFoundException::new);
-        question.updateQuestion(questionFormDto);
+        QueBundle queBundle = queBundleRepository.findByQueBundleNm(questionFormDto.getQueBundleNm());
+        question.updateQuestion(questionFormDto, queBundle);
 
         return question.getId();
     }
