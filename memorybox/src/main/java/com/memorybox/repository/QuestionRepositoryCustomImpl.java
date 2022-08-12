@@ -25,7 +25,7 @@ public class QuestionRepositoryCustomImpl implements QuestionRepositoryCustom{
         if(StringUtils.equals("queDetail", searchBy)) {
             return QQuestion.question.queDetail.like("%"+searchQuery+"%");
         } else if(StringUtils.equals("createdBy", searchBy)) {
-            return QQuestion.question.createdBy.like("%"+searchBy+"%");
+            return QQuestion.question.createdBy.like("%"+searchQuery+"%");
         }
         return null;
     }

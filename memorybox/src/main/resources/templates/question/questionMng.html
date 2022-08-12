@@ -119,13 +119,6 @@
         </div>
 
         <div class="form-inline justify-content-center" th:object="${questionSearchDto}">
-            <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
-                <option value="all">전체기간</option>
-                <option value="1d">1일</option>
-                <option value="1w">1주</option>
-                <option value="1m">1개월</option>
-                <option value="6m">6개월</option>
-            </select>
             <select th:field="*{searchBy}" class="form-control" style="width:auto;">
                 <option value="queDetail">문제내용</option>
                 <option value="createdBy">등록자</option>
