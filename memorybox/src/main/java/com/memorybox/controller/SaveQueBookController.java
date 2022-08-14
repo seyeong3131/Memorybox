@@ -71,5 +71,4 @@ public class SaveQueBookController {
             return new ResponseEntity<Long>(saveQueId, HttpStatus.OK);
         }
 
-
     }
