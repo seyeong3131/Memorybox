@@ -4,10 +4,7 @@ import com.memorybox.dto.MainQueBundleDto;
 import com.memorybox.dto.QMainQueBundleDto;
 import com.memorybox.dto.QueBundleSearchDto;
 import com.memorybox.dto.QuestionSearchDto;
-import com.memorybox.entity.QQueBundle;
-import com.memorybox.entity.QQuestion;
-import com.memorybox.entity.QueBundle;
-import com.memorybox.entity.Question;
+import com.memorybox.entity.*;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.annotations.QueryProjection;
 import com.querydsl.core.types.Predicate;
@@ -57,13 +54,13 @@ public class QueBundleRepositoryCustomImpl implements QueBundleRepositoryCustom{
     @Override
     public Page<MainQueBundleDto> getMainQueBundlePage(QueBundleSearchDto queBundleSearchDto, Pageable pageable){
         QQueBundle queBundle = QQueBundle.queBundle;
-//        QQueBundle itemImg = QItemImg.itemImg;
+        QQueBundleImg queBundleImg = QQueBundleImg.queBundleImg;
 
         //QMainItemDto @QueryProjection을 하용하면 DTO로 바로 조회 가능
         QueryResults<MainQueBundleDto> results = queryFactory.select(new QMainQueBundleDto(queBundle.id, queBundle.queBundleNm,
-                queBundle.qCategory))
+                        queBundle.qCategory, queBundleImg.imgUrl))
                 // join 내부조인 .repImgYn.eq("Y") 대표이미지만 가져온다.
-                 .from(queBundle) //.join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
+                 .from(queBundleImg).join(queBundleImg.queBundle, queBundle)
                 .where(queBundleNmLike(queBundleSearchDto.getSearchQuery()))
                 .orderBy(queBundle.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
         List<MainQueBundleDto> content = results.getResults();

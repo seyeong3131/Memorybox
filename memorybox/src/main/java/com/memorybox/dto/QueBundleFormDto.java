@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +20,10 @@ public class QueBundleFormDto {
     private String queBundleNm;
 
     private QCategory qCategory;
+
+    private QueBundleImgDto queBundleImgDto; //이미지 정보
+
+    private Long queBundleImgId; //상품 이미지 아이디
 
     private static ModelMapper modelMapper = new ModelMapper();
 

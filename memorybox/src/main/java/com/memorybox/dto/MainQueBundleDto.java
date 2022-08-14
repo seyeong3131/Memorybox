@@ -12,10 +12,13 @@ public class MainQueBundleDto {
     private String queBundleNm;
     private QCategory qCategory;
 
+    private String imgUrl;
+
     @QueryProjection //Querydsl 결과 조회 시 MainItemDto 객체로 바로 오도록  활용
-    public MainQueBundleDto(Long id, String queBundleNm, QCategory qCategory) {
+    public MainQueBundleDto(Long id, String queBundleNm, QCategory qCategory, String imgUrl) {
         this.id = id;
         this.queBundleNm = queBundleNm;
         this.qCategory = qCategory;
+        this.imgUrl = imgUrl;
     }
 }
