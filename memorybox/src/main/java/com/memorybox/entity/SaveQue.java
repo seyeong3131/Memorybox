@@ -13,16 +13,20 @@ import javax.persistence.*;
 public class SaveQue extends BaseEntity{
     @Id
     @Column(name="saveQue_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "queBook_id")
+    @JoinColumn(name = "saveQueBook_Id")
     private SaveQueBook saveQueBook;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "que_id")
     private Question question;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     private  int count;
 

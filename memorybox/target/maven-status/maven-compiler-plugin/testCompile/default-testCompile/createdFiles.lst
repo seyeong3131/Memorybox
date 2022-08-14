@@ -1,0 +1,4 @@
+com\memorybox\repository\QuestionRepositoryTest.class
+com\memorybox\controller\QuestionControllerTest.class
+com\memorybox\service\QuestionServiceTest.class
+com\memorybox\MemoryboxApplicationTests.class

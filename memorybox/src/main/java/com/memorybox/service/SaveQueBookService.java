@@ -36,20 +36,49 @@ public class SaveQueBookService {
 
     private final SaveQueRepository saveQueRepository;
 
-    private final QuestionService questionService;
 
+    public Long addSaveQueBook(SaveQueDto saveQueDto, String email){
+        Question question= questionRepository.findById(saveQueDto.getQuestionId())
+                .orElseThrow(EntityExistsException::new);
+        Member member = memberRepository.findByEmail(email);
+
+        SaveQueBook saveQueBook= saveQueBookRepository.findByMemberId(member.getId());
+        if (saveQueBook == null){
+            saveQueBook = SaveQueBook.createSaveQueBook(member);
+            saveQueBookRepository.save(saveQueBook);
+        }
+
+        SaveQue savedSaveQue = saveQueRepository.findBySaveQueBookIdAndQuestionId(saveQueBook.getId(), question.getId());
+
+        if (savedSaveQue != null){
+            savedSaveQue.addCount(saveQueDto.getCount());
+            return savedSaveQue.getId();
+        }
+        else {
+            SaveQue saveQue = SaveQue.createSaveQue(saveQueBook , question, saveQueDto.getCount());
+            saveQueRepository.save(saveQue);
+            return saveQue.getId();
+        }
+    }
 
     @Transactional(readOnly = true)
     public boolean validateSaveQue(Long saveQueId, String email){
         Member curMember = memberRepository.findByEmail(email);
-        SaveQue cartItem = saveQueRepository.findById(saveQueId)
+        SaveQue saveQue = saveQueRepository.findById(saveQueId)
                 .orElseThrow(EntityExistsException::new);
-        /*Member savedMember = saveQue.getSaveQueBook().getMember();
+        Member savedMember = saveQue.getSaveQueBook().getMember();
 
         if (!StringUtils.equals(curMember.getEmail(),savedMember.getEmail())){
             return false;
-        }*/
+        }
         return true;
+    }
+
+
+    public void updateSaveQueCount(Long saveQueId, int count) {
+        SaveQue saveQue = saveQueRepository.findById(saveQueId)
+                .orElseThrow(EntityExistsException::new);
+        saveQue.updateCount(count);
     }
 
     public void deleteSaveQue(Long saveQueId) {
@@ -58,12 +87,5 @@ public class SaveQueBookService {
                 orElseThrow(EntityExistsException::new);
         saveQueRepository.delete(saveQue);
     }
-
-    /*public Long addSaveQueBook(SaveQueDto saveQueDto, String email){
-        Question question = questionRepository.findById(saveQueDto.getQuestionId())
-                .orElseThrow(EntityExistsException::new);
-        Member member = memberRepository.findByEmail(email);
-        return saveQue.getId();
-    }*/
 
 }
