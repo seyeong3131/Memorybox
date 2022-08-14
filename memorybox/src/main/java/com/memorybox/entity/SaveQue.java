@@ -24,6 +24,10 @@ public class SaveQue extends BaseEntity{
     @JoinColumn(name = "que_id")
     private Question question;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     private  int count;
 
     public static SaveQue createSaveQue(SaveQueBook saveQueBook, Question question,int count){
