@@ -59,13 +59,13 @@ public class QueBundleService {
     }
 
 
-
-    public void deleteQuestion(Long queBundleId){
-        QueBundle queBundle = queBundleRepository.findById(queBundleId)
-                .orElseThrow(EntityExistsException::new);
-        queBundleRepository.delete(queBundle);
-    }
     public List<String> queBundleNmList(){
         return queBundleRepository.findAllQueBundleNm();
+    }
+
+
+    @Transactional(readOnly = true)
+    public Page<MainQueBundleDto> getMainQueBundlePage(QueBundleSearchDto queBundleSearchDto, Pageable pageable){
+        return queBundleRepository.getMainQueBundlePage(queBundleSearchDto, pageable);
     }
 }

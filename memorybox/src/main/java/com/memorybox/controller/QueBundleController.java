@@ -86,7 +86,7 @@ public class QueBundleController {
     }
 
     @GetMapping(value = {"/admin/queBundles", "/admin/queBundles/{page}"})
-    public String itemManage(QueBundleSearchDto queBundleSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
+    public String QueBundleManage(QueBundleSearchDto queBundleSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
         Page<QueBundle> queBundles = queBundleService.getAdminQueBundlePage(queBundleSearchDto, pageable);
         model.addAttribute("queBundles", queBundles);
@@ -96,7 +96,7 @@ public class QueBundleController {
     }
 
     @DeleteMapping("/admin/queBundle/{que_Id}")
-    public @ResponseBody ResponseEntity deleteQuestion(@PathVariable("queBundle_Id") Long queBundleId, Principal principal){
+    public @ResponseBody ResponseEntity deleteQueBundle(@PathVariable("queBundle_Id") Long queBundleId, Principal principal){
         queBundleService.deleteQueBundle(queBundleId);
         return new ResponseEntity<Long>(queBundleId, HttpStatus.OK);
     }
