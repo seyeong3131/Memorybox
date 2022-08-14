@@ -2,6 +2,7 @@ package com.memorybox.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -9,9 +10,10 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "saveQueBook")
+@ToString
 public class SaveQueBook{
     @Id
-    @Column(name = "saveQue_Id")
+    @Column(name = "saveQueBook_Id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  Long id;
 

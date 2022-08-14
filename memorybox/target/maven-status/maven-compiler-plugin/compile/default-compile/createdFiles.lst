@@ -1,0 +1,12 @@
+com\memorybox\entity\QBaseEntity.class
+com\memorybox\entity\QMember.class
+com\memorybox\repository\SaveQueRepository.class
+com\memorybox\entity\QQueBundle.class
+com\memorybox\repository\QueBundleRepositoryCustomImpl.class
+com\memorybox\repository\SaveQueBookRepository.class
+com\memorybox\entity\QBaseTimeEntity.class
+com\memorybox\entity\QSaveQueBook.class
+com\memorybox\entity\QSaveQue.class
+com\memorybox\service\SaveQueBookService.class
+com\memorybox\entity\QQuestion.class
+com\memorybox\repository\QuestionRepositoryCustomImpl.class
