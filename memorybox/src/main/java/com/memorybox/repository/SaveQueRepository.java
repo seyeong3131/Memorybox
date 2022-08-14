@@ -5,7 +5,7 @@ import com.memorybox.entity.SaveQue;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SaveQueRepository extends JpaRepository<SaveQue, Long> {
-    SaveQue findByMemberId(Long memberId);
 
+    SaveQue findBySaveQueBookIdAndQuestionId(Long saveQueId, Long QuestionId);
 
 }
