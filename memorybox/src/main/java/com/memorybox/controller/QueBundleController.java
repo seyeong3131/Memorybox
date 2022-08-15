@@ -18,9 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -38,8 +40,15 @@ public class QueBundleController {
 
     @PostMapping(value = "/admin/queBundle/new")
 
-    public String queBundleNew(@Valid QueBundleFormDto queBundleFormDto, BindingResult bindingResult, Model model){
+    public String queBundleNew(@Valid QueBundleFormDto queBundleFormDto, BindingResult bindingResult, Model model,
+                               @RequestParam("queBundleImgFile") MultipartFile queBundleImgFile){
         if(bindingResult.hasErrors()){
+            return "queBundle/queBundleForm";
+        }
+
+        if (queBundleImgFile.isEmpty() && queBundleFormDto.getId() == null) {
+            model.addAttribute("errorMessage",
+                    "문제지 이미지는 필수 입력 값입니다.");
             return "queBundle/queBundleForm";
         }
 
@@ -72,12 +81,19 @@ public class QueBundleController {
     }
 
     @PostMapping(value = "/admin/queBundle/{que_bundle_Id}")
-    public String queBundleUpdate(@Valid QueBundleFormDto queBundleFormDtoFormDto, BindingResult bindingResult, Model model){
+    public String queBundleUpdate(@Valid QueBundleFormDto queBundleFormDto, BindingResult bindingResult,
+                                  @RequestParam("queBundleImgFile") MultipartFile queBundleImgFile,
+                                  Model model){
         if (bindingResult.hasErrors()) {
             return "queBundle/queBundleForm";
         }
+        if (queBundleImgFile.isEmpty() && queBundleFormDto.getId() == null) {
+            model.addAttribute("errorMessage",
+                    "문제지 이미지는 필수 입력 값입니다.");
+            return "queBundle/queBundleForm";
+        }
         try {
-            queBundleService.updateQueBundle(queBundleFormDtoFormDto);
+            queBundleService.updateQueBundle(queBundleFormDto, queBundleImgFile);
         } catch (Exception e) {
             model.addAttribute("errorMessage", "문제 수정 중 에러가 발생하였습니다.");
             return "queBundle/queBundleForm";
@@ -86,7 +102,7 @@ public class QueBundleController {
     }
 
     @GetMapping(value = {"/admin/queBundles", "/admin/queBundles/{page}"})
-    public String itemManage(QueBundleSearchDto queBundleSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
+    public String QueBundleManage(QueBundleSearchDto queBundleSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
         Page<QueBundle> queBundles = queBundleService.getAdminQueBundlePage(queBundleSearchDto, pageable);
         model.addAttribute("queBundles", queBundles);
@@ -96,7 +112,7 @@ public class QueBundleController {
     }
 
     @DeleteMapping("/admin/queBundle/{que_Id}")
-    public @ResponseBody ResponseEntity deleteQuestion(@PathVariable("queBundle_Id") Long queBundleId, Principal principal){
+    public @ResponseBody ResponseEntity deleteQueBundle(@PathVariable("queBundle_Id") Long queBundleId, Principal principal){
         queBundleService.deleteQueBundle(queBundleId);
         return new ResponseEntity<Long>(queBundleId, HttpStatus.OK);
     }
