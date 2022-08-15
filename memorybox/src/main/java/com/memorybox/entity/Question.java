@@ -22,8 +22,13 @@ public class Question extends BaseEntity{
     @Column(nullable = false)
     private String queBackDetail;
 
-    public void updateQuestion (QuestionFormDto questionFormDto){
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "que_bundle_id")
+    private QueBundle queBundle;
+
+    public void updateQuestion (QuestionFormDto questionFormDto, QueBundle queBundle){
         this.queDetail = questionFormDto.getQueDetail();
         this.queBackDetail = questionFormDto.getQueBackDetail();
+        this.queBundle = queBundle;
     }
 }
