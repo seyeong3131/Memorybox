@@ -3,6 +3,7 @@ package com.memorybox.service;
 import com.memorybox.dto.*;
 import com.memorybox.entity.Member;
 import com.memorybox.entity.QueBundle;
+import com.memorybox.entity.QueBundleImg;
 import com.memorybox.entity.Question;
 import com.memorybox.repository.QueBundleImgRepository;
 import com.memorybox.repository.QueBundleRepository;
@@ -30,9 +31,14 @@ public class QueBundleService {
 
     private final QueBundleImgService queBundleImgService;
     private final QueBundleImgRepository queBundleImgRepository;
-    public Long saveQueBundle(QueBundleFormDto queBundleFormDto) throws Exception{
+    public Long saveQueBundle(QueBundleFormDto queBundleFormDto, MultipartFile queBundleImgFile) throws Exception{
         QueBundle queBundle = queBundleFormDto.createQueBundle();
         queBundleRepository.save(queBundle);
+
+            QueBundleImg queBundleImg = new QueBundleImg();
+            queBundleImg.setQueBundle(queBundle);
+            queBundleImg.setRepImgYn("Y");
+        queBundleImgService.saveQueBundleImg(queBundleImg, queBundleImgFile);
 
         return queBundle.getId();
     }

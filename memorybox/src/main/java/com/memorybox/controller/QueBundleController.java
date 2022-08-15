@@ -53,7 +53,7 @@ public class QueBundleController {
         }
 
         try{
-            queBundleService.saveQueBundle(queBundleFormDto);
+            queBundleService.saveQueBundle(queBundleFormDto, queBundleImgFile);
         }catch (Exception e){
             model.addAttribute("errorMessage", "문제 등록 중 에러가 발생하였습니다.");
             return "queBundle/queBundleForm";
