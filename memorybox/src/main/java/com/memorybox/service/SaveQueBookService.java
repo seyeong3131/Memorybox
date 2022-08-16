@@ -51,11 +51,11 @@ public class SaveQueBookService {
         SaveQue savedSaveQue = saveQueRepository.findBySaveQueBookIdAndQuestionId(saveQueBook.getId(), question.getId());
 
         if (savedSaveQue != null){
-            savedSaveQue.addCount(saveQueDto.getCount());
+           /* savedSaveQue.addCount(saveQueDto.getCount());*/
             return savedSaveQue.getId();
         }
         else {
-            SaveQue saveQue = SaveQue.createSaveQue(saveQueBook , question, saveQueDto.getCount());
+            SaveQue saveQue = SaveQue.createSaveQue(saveQueBook , question/*, saveQueDto.getCount()*/);
             saveQueRepository.save(saveQue);
             return saveQue.getId();
         }
@@ -75,12 +75,12 @@ public class SaveQueBookService {
     }
 
 
-    public void updateSaveQueCount(Long saveQueId, int count) {
+   /* public void updateSaveQueCount(Long saveQueId, int count) {
         SaveQue saveQue = saveQueRepository.findById(saveQueId)
                 .orElseThrow(EntityExistsException::new);
         saveQue.updateCount(count);
     }
-
+*/
     public void deleteSaveQue(Long saveQueId) {
 
         SaveQue saveQue = saveQueRepository.findById(saveQueId).

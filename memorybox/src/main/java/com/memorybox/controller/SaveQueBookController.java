@@ -24,7 +24,7 @@ public class SaveQueBookController {
 
     @PostMapping(value = "/saveQueBook")
     public  @ResponseBody
-    ResponseEntity order(@RequestBody @Valid SaveQueDto saveQueDto,
+    ResponseEntity save(@RequestBody @Valid SaveQueDto saveQueDto,
                          BindingResult bindingResult, Principal principal){
         if (bindingResult.hasErrors()){
             StringBuilder sb = new StringBuilder();
@@ -48,18 +48,6 @@ public class SaveQueBookController {
     }
 
 
-        @PatchMapping(value = "/saveQue/{saveQueId}")
-        public @ResponseBody ResponseEntity updateSaveQue(@PathVariable("saveQueId") Long saveQueId,
-        int count, Principal principal){
-            System.out.println(saveQueId);
-            if (count <= 0){
-                return new ResponseEntity<String>("최소 1문제 이상 고르세요.", HttpStatus.BAD_REQUEST);
-            } else if (!saveQueBookService.validateSaveQue(saveQueId, principal.getName())) {
-                return new ResponseEntity<String>("수정권한이 없습니다.", HttpStatus.FORBIDDEN);
-            }
-            saveQueBookService.updateSaveQueCount(saveQueId, count);
-            return new ResponseEntity<Long>(saveQueId, HttpStatus.OK);
-        }
 
         @DeleteMapping(value = "/saveQue/{saveQueId}")
         public @ResponseBody ResponseEntity deleteSaveQue(@PathVariable("saveQueId")Long saveQueId,
