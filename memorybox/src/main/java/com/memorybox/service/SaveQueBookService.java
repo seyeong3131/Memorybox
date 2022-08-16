@@ -61,6 +61,18 @@ public class SaveQueBookService {
         }
     }
 
+    public Long findSaveQueBookId(Long MemberId){
+        SaveQueBook saveQueBook = saveQueBookRepository.findByMemberId(MemberId);
+        return saveQueBook.getId();
+    }
+
+    public Boolean saveQueBookCheck(Long MemberId){
+        if(saveQueBookRepository.findByMemberId(MemberId) != null){
+            return true;
+        }
+        return false;
+    }
+
     @Transactional(readOnly = true)
     public boolean validateSaveQue(Long saveQueId, String email){
         Member curMember = memberRepository.findByEmail(email);
