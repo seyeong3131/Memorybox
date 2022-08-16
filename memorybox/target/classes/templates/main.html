@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout1}">
 
 <!-- 사용자 CSS 추가 -->
@@ -29,6 +30,16 @@
         }
         .center{
             text-align:center;
+        }
+        .questionBox{
+            text-align: center;
+            height: 100px;
+            width: 100px;
+            position: fixed;
+            right: 5%;
+            bottom 5%;
+            background-color: #ccc;
+            border: 1px solid black;
         }
     </style>
 </th:block>
@@ -86,6 +97,11 @@
     </a>
    </li>
   </ul>
+ </div>
+
+ <div sec:authorize="isAuthenticated()" th:object="${saveQueAlertDtoList}" class="questionBox">
+  <div th:if="${not #lists.isEmpty(saveQueAlertDtoList)}"><a th:href="@{'/saveQueBook/' + ${saveQueAlertDtoList[0].saveQueBookId}">문제풀기</a></div>
+  <div th:unless="${not #lists.isEmpty(saveQueAlertDtoList)}">X</div>
  </div>
 
 </div>
