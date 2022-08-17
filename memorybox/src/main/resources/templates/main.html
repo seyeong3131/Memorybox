@@ -89,3 +89,15 @@
  </div>
 
 </div>
+
+<div th:fragment="sidebar">
+ <div id="sidebar-wrapper">
+  <ul class="sidebar-nav">
+   <li th:each="qCate : ${qCategory}">
+    <a th:href="@{'/admin/question/new'}" th:for="${#ids.prev('qCategory')}" th:text="${qCate.description}"></a>
+   </li>
+  </ul>
+ </div>
+</div>
+
+<!--"@{'/admin/questions/'+${questions.number}}"-->
