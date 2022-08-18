@@ -5,83 +5,323 @@
 <!--사용자 스크립트 추가-->
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-  $(document).ready(function(){
-            var errorMessage = [[${errorMessage}]];
-            if(errorMessage != null) {
-                alert(errorMessage);
+    var count;
+    var maxCard;
+    $(document).ready(function(){
+        count = 6;
+        maxCard = prompt('원하는 값을 입력하세요!', '0 이상의 정수를 입력하세요');
+        while(maxCard<0){
+            maxCard = prompt('지정된 범위를 벗어난 값입니다. 다시 입력해주세요', '0 이상의 정수를 입력하세요');
+        }
+        makeBox();
+    });
+
+
+    function makeBox() {
+        const container = document.createElement('div');
+        container.className = 'container';
+        const leftBox = document.createElement('div');
+        leftBox.className = 'leftBox';
+        const rightBox = document.createElement('div');
+        rightBox.className = 'rightBox';
+        const cardBox = document.createElement('div');
+        cardBox.className = 'cardBox';
+
+        for (i = 5; i >= 1; i--) {
+            if(maxCard<i){
+                continue;
             }
-            bindDomEvent();
+            var card = document.createElement('div');
+            card.className = 'card';
+            card.id = 'num' + i;
+            card.draggable = 'true';
+            var cardInner = document.createElement('div');
+            cardInner.className = 'card-inner';
+            var cardFront = document.createElement('div');
+            cardFront.className = 'card-front';
+            var frontText = document.createElement('p');
+            var cardBack = document.createElement('div');
+            var backText = document.createElement('p');
+            cardBack.className = 'card-back';
+            cardInner.appendChild(cardFront);
+            cardFront.appendChild(frontText);
+            frontText.append("앞면" + i);
+            cardInner.appendChild(cardBack);
+            cardBack.appendChild(backText);
+            backText.append("뒷면" + i);
+            card.appendChild(cardInner);
+
+            card.addEventListener('click', function () {
+                card.classList.toggle('flipped');
+            });
+
+            cardBox.appendChild(card);
+        }
+        maxCard-=5;
+
+
+        container.appendChild(leftBox);
+        container.appendChild(cardBox);
+        container.appendChild(rightBox);
+
+        var questionScreen = document.getElementById('questionScreen');
+        questionScreen.appendChild(container);
+
+
+        leftBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        leftBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            console.log("왼쪽 박스에 드랍 됨");
+            document.getElementById('num1').classList.toggle('leftGo');
+            setTimeout(function () {
+                var frontcard = document.getElementById('num1');
+                frontcard.remove();
+                for (j = 2; j <= 5; j++) {
+                    var change = document.getElementById('num' + j);
+                    if(change === null){
+                        continue;
+                    }
+                    change.id = 'num' + (j - 1);
+                }
+
+                if(document.getElementById('num1') === null){
+                    alert('모든 카드가 소진되었습니다.');
+                }else{
+                    document.getElementById('num1').addEventListener('click', function () {
+                        document.getElementById('num1').classList.toggle('flipped');
+                    });
+                }
+
+                if(!(maxCard<=0)){
+                    var newcard = makeNewCard();
+                    cardBox.appendChild(newcard);
+                    maxCard--;
+                }
+            }, 500);
         });
 
-
-
-        function deleteCartItem(obj){
-           var questionId = obj.dataset.id;
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-
-            var url = "/admin/question/" + questionId;
-
-         $.ajax({
-                url : url,
-                type : "DELETE",
-                beforeSend : function(xhr){
-                    xhr.setRequestHeader(header, token);
-                },
-                dataType : "json",
-                cache : false,
-                success : function(result, status){
-                    location.href='/';
-                },
-                error : function(jqXHR, status, error){
-                    if(jqXHR.status == '401'){
-                        alert('로그인 후 사용해주세요.');
-                        location.href='members/login';
-                    }else{
-                        alert(jqXHR.responseText);
+        rightBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        rightBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            console.log("오른쪽 박스에 드랍 됨");
+            document.getElementById('num1').classList.toggle('rightGo');
+            setTimeout(function () {
+                var frontcard = document.getElementById('num1');
+                frontcard.remove();
+                for (j = 2; j <= 5; j++) {
+                    var change = document.getElementById('num' + j);
+                    if(change === null){
+                        continue;
                     }
+                    change.id = 'num' + (j - 1);
                 }
-            });
-        }
 
+                if(document.getElementById('num1') === null){
+                    alert('모든 카드가 소진되었습니다.');
+                }else{
+                    document.getElementById('num1').addEventListener('click', function () {
+                        document.getElementById('num1').classList.toggle('flipped');
+                    });
+                }
+
+                if(!(maxCard<=0)){
+                    var newcard = makeNewCard();
+                    cardBox.appendChild(newcard);
+                    maxCard--;
+                }
+            }, 500);
+        });
+    }
+
+    function makeNewCard() {
+        var card = document.createElement('div');
+        card.className = 'card';
+        card.id = 'num5';
+        card.draggable = 'true';
+        var cardInner = document.createElement('div');
+        cardInner.className = 'card-inner';
+        var cardFront = document.createElement('div');
+        cardFront.className = 'card-front';
+        var frontText = document.createElement('p');
+        var cardBack = document.createElement('div');
+        var backText = document.createElement('p');
+        cardBack.className = 'card-back';
+        cardInner.appendChild(cardFront);
+        cardFront.appendChild(frontText);
+        frontText.append("앞면" + count);
+        cardInner.appendChild(cardBack);
+        cardBack.appendChild(backText);
+        backText.append("뒷면" + (count++));
+        card.appendChild(cardInner);
+
+        return card;
+    }
     </script>
 </th:block>
 <!--사용자 CSS 추가-->
 <th:block layout:fragment="css">
     <style>
-         .content-mg{
-            margin-left:30%;
-            margin-right:30%;
-            margin-top:2%;
-            margin-bottom:100px;
+        .container {
+            width: 150%;
+            height: 500px;
+            display: flex;
+            /*플렉스 컨테이너 지정*/
+            background-color: #eee;
+            border: 1px solid #222;
+            margin-bottom: 30px;
+            padding: 0;
         }
-        .repImgDiv{
-            margin-right:15px;
-            margin-left:15px;
-            height:auto;
+
+        .card {
+            display: inline-block;
+            margin: 20px;
+            perspective: 140px;
+            margin-left: auto;
+            position: absolute;
         }
-        .repImg{
-            height:100px;
-            width:100px;
+
+        .cardBox{
+            overflow: hidden;
+            position: relative;
+            width: 400px;
         }
-        .card{
-            width:750px;
-            height:100px;
-            padding:30px;
-            margin-bottom:20px;
+
+        .card-inner {
+            /* position: absolute를 이용하여 카드 앞뒤를 곂쳐지게 함*/
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
         }
-        .fs18{
-            font-size:18px;
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
         }
-        .fs24{
-            font-size:24px;
+
+        .card.leftGo .card-inner {
+            animation: card-prev-anim .5s linear 0s;
+        }
+
+        .card.rightGo .card-inner {
+            animation: card-next-anim .5s linear 0s;
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 1px solid #828282;
+        }
+
+        .card-front {
+            background-color: white;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background-color: white;
+        }
+
+        .leftBox,
+        .rightBox {
+            background-color: #ccc;
+            width: 50%;
+            height: 100%;
+            position: relative;
+            opacity: 0;
+        }
+
+        #num5 {
+            left: 5px;
+            transition: transform 0.8s;
+            z-index: 1;
+            opacity: 0.2;
+            width: 160px;
+            height: 260px;
+        }
+
+        #num4 {
+            left: 10px;
+            transition: transform 0.8s;
+            z-index: 2;
+            opacity: 0.4;
+            width: 170px;
+            height: 270px;
+        }
+
+        #num3 {
+            left: 15px;
+            transition: transform 0.8s;
+            z-index: 3;
+            opacity: 0.6;
+            width: 180px;
+            height: 280px;
+        }
+
+        #num2 {
+            left: 20px;
+            transition: transform 0.8s;
+            z-index: 4;
+            opacity: 0.8;
+            width: 190px;
+            height: 290px;
+        }
+
+        #num1 {
+            left: 25px;
+            transition: transform 0.8s;
+            z-index: 5;
+            width: 200px;
+            height: 300px;
+        }
+
+        @keyframes card-next-anim {
+            0% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 1
+            }
+
+            to {
+                transform: translate(50%, 100%) scale(0) rotate(1turn);
+                opacity: 0
+            }
+        }
+
+        @keyframes card-back-anim {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(.3);
+                opacity: 0
+            }
+        }
+
+        @keyframes card-prev-anim {
+            0% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 1
+            }
+
+            to {
+                transform: translate(-50%, 100%) scale(0) rotate(-1turn);
+                opacity: 0
+            }
         }
     </style>
 </th:block>
 
-<div layout:fragment="content">
-    <h2 class="mb-4">개인 문제함</h2>
-
+<div layout:fragment="content" id="questionScreen" th:object="${SaveQueList}">
 </div>
 
 

@@ -111,7 +111,7 @@
             <ul>
                 <li th:each="qCate : ${qCategory}">
                     <input type="radio"  th:field="*{qCategory}" th:value="${qCate.name()}" >
-                    <label th:for="${#ids.prev('qCategory')}" th:text="${qCate.description}"></label>
+                    <label th:text="${qCate.description}"></label>
                 </li>
             </ul>
         </div>
