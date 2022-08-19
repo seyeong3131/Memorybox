@@ -52,7 +52,12 @@
 
 <div layout:fragment="content">
     <form role="form" method="post" enctype="multipart/form-data" th:object="${questionFormDto}">
-        <p class="h2">문제 등록</p>
+        <div th:if="${#strings.isEmpty(questionFormDto.id)}">
+            <p class="h2">문제 등록</p>
+        </div>
+        <div th:unless="${#strings.isEmpty(questionFormDto.id)}">
+            <p class="h2">문제 수정</p>
+        </div>
 
         <input type="hidden" th:field="*{id}">
 
