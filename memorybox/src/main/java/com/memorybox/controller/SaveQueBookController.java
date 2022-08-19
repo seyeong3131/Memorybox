@@ -22,30 +22,8 @@ import java.util.List;
 public class SaveQueBookController {
     private final SaveQueBookService saveQueBookService;
 
-    @PostMapping(value = "/saveQueBook")
-    public  @ResponseBody
-    ResponseEntity order(@RequestBody @Valid SaveQueDto saveQueDto,
-                         BindingResult bindingResult, Principal principal){
-        if (bindingResult.hasErrors()){
-            StringBuilder sb = new StringBuilder();
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            for (FieldError fieldError : fieldErrors){
-                sb.append(fieldError.getDefaultMessage());
-            }
-            return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
-        }
-
-
-
-        String email = principal.getName();
-        Long saveQueId;
-        try {
-            saveQueId = saveQueBookService.addSaveQueBook(saveQueDto, email);
-        }catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<Long>(saveQueId, HttpStatus.OK);
-    }
+    @GetMapping(value = "/saveQueBook")
+    public String showdtl(){ return "SaveQueBook/SaveQueBookDtl"; }
 
 
         @PatchMapping(value = "/saveQue/{saveQueId}")

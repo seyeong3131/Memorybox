@@ -17,10 +17,6 @@ public interface QueBundleRepository extends JpaRepository<QueBundle, Long>, Que
     @Query("select queBundleNm from QueBundle")
     List<String> findAllQueBundleNm();
 
-//
-//    @Query("select i from QUeBundle i where i.queBundleNm like %:QueBundleNm%")
-//    List<QueBundle> findByQueBundleNm1(@Param("queBundleNm") String queBundleNm);
-
     @Query(value = "select * from queBundle i where i.queBundleNm like %:queBundleNm% ", nativeQuery = true)
     List<QueBundle> findByQueBundleNmByNative(@Param("queBundleNm") String queBundleNm);
 }
