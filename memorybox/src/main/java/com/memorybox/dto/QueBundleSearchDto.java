@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 public class QueBundleSearchDto {
 
-        private String searchDateType;
-
-        private QCategory searchQCategory;
-
         private String searchBy;
+
+        private QCategory searchCategory;
+
+        private String searchDateType;
 
         private String searchQuery="";
 

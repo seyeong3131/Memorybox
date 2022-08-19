@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout1}">
 
 <!-- 사용자 CSS 추가 -->
 
 <th:block layout:fragment="css">
- <style>
+    <style>
         .carousel-inner > .item {
             height : 350px;
         }
         .margin{
+            margin-left : 200px;
             margin-bottom : 30px;
         }
         .banner{
@@ -30,62 +32,133 @@
         .center{
             text-align:center;
         }
+        .questionBox{
+            text-align: center;
+            height: 100px;
+            width: 100px;
+            position: fixed;
+            right: 5%;
+            bottom 5%;
+            background-color: #ccc;
+            border: 1px solid black;
+        }
+
+
+        .sidenav {
+          height: 100%; /* 100% Full-height */
+          width: 200px; /* 0 width - change this with JavaScript */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Stay on top */
+          top: 0; /* Stay at the top */
+          left: 0;
+          background-color: #111; /* Black*/
+          overflow-x: hidden; /* Disable horizontal scroll */
+          padding-top: 20px; /* Place content 60px from the top */
+          margin-top : 50px;
+        }
+
+        /* The navigation menu links */
+        .sidenav a {
+          padding: 6px 6px 6px 6px 32px;
+          text-decoration: none;
+          font-size: 25px;
+          color: #818181;
+          display: block;
+        }
+
+        /* When you mouse over the navigation links, change their color */
+        .sidenav a:hover {
+          color: #f1f1f1;
+        }
     </style>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+<!--        $(document).ready(function(){-->
+<!--            $("searchBtn").on("click",function(e){-->
+<!--                e.preventDefault(); //검색버튼 클릭시 form 태그 전송을 막습니다.-->
+<!--                page(0);-->
+<!--            });-->
+<!--        });-->
+
+        function page(page){
+            var searchCategory = $("#searchCategory").val();
+            location.href="/" + page + "?searchCategory=" + searchCategory
+        }
+    </script>
 </th:block>
 
 <div layout:fragment="content">
 
- <div id="carouselControls" class="carousel slide margin" data-ride="carousel">
-  <div class="carousel-inner">
-   <div class="carousel-item active item">
-    <img src="https://user-images.githubusercontent.com/13268420/112147492-1ab76200-8c20-11eb-8649-3d2f282c3c02.png" class="d-block w-100 banner" alt="First slide">
-   </div>
-  </div>
- </div>
-
- <input type="hidden" name="searchQuery" th:value="${queBundleSearchDto.searchQuery}">
- <div th:if="${not #strings.isEmpty(queBundleSearchDto.searchQuery)}" class="center">
-  <p class="h3 font-weight-bold" th:text="${queBundleSearchDto.searchQuery} + '검색결과'"></p>
- </div>
-
- <div class="row">
-  <th:block th:each="queBundle, status: ${queBundles.getContent()}">
-   <div class="col-md-4-margin">
-    <div class="card">
-     <a th:href="'/queBundle/' + ${queBundle.id}" class="text-dark">
-      <img th:src="${queBundle.imgUrl}" class="card-img-top" th:alt="${queBundle.queBundleNm}" height="400">
-      <div class="card-body">
-       <h4 class="card-title">[[${queBundle.queBundleNm}]]</h4>
-       <p class="card-text">[[${queBundle.qCategory.description}]]</p>
-      </div>
-     </a>
+    <div id="carouselControls" class="carousel slide margin" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active item">
+                <img src="https://user-images.githubusercontent.com/13268420/112147492-1ab76200-8c20-11eb-8649-3d2f282c3c02.png"
+                     class="d-block w-100 banner" alt="First slide">
+            </div>
+        </div>
     </div>
-   </div>
-  </th:block>
- </div>
 
- <div th:with="start=${(queBundles.number/maxPage)*maxPage +1},
+    <input type="hidden" name="searchQuery" th:value="${queBundleSearchDto.searchQuery}">
+    <div th:if="${not #strings.isEmpty(queBundleSearchDto.searchQuery)}" class="center">
+        <p class="h3 font-weight-bold" th:text="${queBundleSearchDto.searchQuery} + '검색결과'"></p>
+    </div>
+
+    <div class="row">
+        <th:block th:each="queBundle, status: ${queBundles.getContent()}">
+            <div class="col-md-4-margin">
+                <div class="card">
+                    <a th:href="'/queBundle/' + ${queBundle.id}" class="text-dark">
+                        <img th:src="${queBundle.imgUrl}" class="card-img-top" th:alt="${queBundle.queBundleNm}"
+                             height="400">
+                        <div class="card-body">
+                            <h4 class="card-title">[[${queBundle.queBundleNm}]]</h4>
+                            <p class="card-text">[[${queBundle.qCategory.description}]]</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
+    <div th:with="start=${(queBundles.number/maxPage)*maxPage +1},
         end=(${(queBundles.totalPages == 0) ? 1 : (start + (maxPage-1) < queBundles.totalPages ?
         start + (maxPage - 1) : queBundles.totalPages)})">
-  <ul class="pagination justify-content-center">
-   <li class="page-item" th:classappend="${queBundles.number eq 0}?'disabled'">
-    <a th:href="@{'/' + '?searchQuery=' + ${queBundleSearchDto.searchQuery} + '&page=' + ${queBundles.number-1}}"
-       aria-label='Previous' class="page-link">
-     <span aria-hidden="true">Previous</span>
-    </a>
-   </li>
-   <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
-       th:classappend="${queBundles.number eq page-1}?'active':''">
-    <a th:href="@{'/' + '?searchQuery=' + ${queBundleSearchDto.searchQuery} + '&page=' +${page -1}}"
-       th:inline="text" class="page-link">[[${page}]]</a>
-   </li>
-   <li class="page-item" th:classappend="${queBundles.number+1 ge queBundles.totalPages}?'disabled'">
-    <a th:href="@{'/' + '?searchQuery=' + ${queBundleSearchDto.searchQuery} + '&page=' + ${queBundles.number + 1}}"
-       aria-label="Next" class="page-link">
-     <span aria-hidden="true">Next</span>
-    </a>
-   </li>
-  </ul>
- </div>
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${queBundles.number eq 0}?'disabled'">
+                <a th:href="@{'/' + '?searchQuery=' + ${queBundleSearchDto.searchQuery} + '&page=' + ${queBundles.number-1}}"
+                   aria-label='Previous' class="page-link">
+                    <span aria-hidden="true">Previous</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
+                th:classappend="${queBundles.number eq page-1}?'active':''">
+                <a th:href="@{'/' + '?searchQuery=' + ${queBundleSearchDto.searchQuery} + '&page=' +${page -1}}"
+                   th:inline="text" class="page-link">[[${page}]]</a>
+            </li>
+            <li class="page-item" th:classappend="${queBundles.number+1 ge queBundles.totalPages}?'disabled'">
+                <a th:href="@{'/' + '?searchQuery=' + ${queBundleSearchDto.searchQuery} + '&page=' + ${queBundles.number + 1}}"
+                   aria-label="Next" class="page-link">
+                    <span aria-hidden="true">Next</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sidenav" th:object="${queBundleSearchDto}">
+        <a th:href="@{'/' + '?searchCategory=' + ${qCate}}" th:each="qCate : ${qCategory}"  th:text="${qCate.description}">카테고리</a>
+    
+    </div>
+
+
+<!--    "@{'/admin/questions/'+${questions.number}}"-->
+
+    <div sec:authorize="isAuthenticated()" th:object="${saveQueAlertDtoList}" class="questionBox">
+        <div th:if="${not #lists.isEmpty(saveQueAlertDtoList)}"><a
+                th:href="@{'/saveQueBook/' + ${saveQueAlertDtoList[0].saveQueBookId}">문제풀기</a></div>
+        <div th:unless="${not #lists.isEmpty(saveQueAlertDtoList)}">X</div>
+    </div>
 
 </div>
+

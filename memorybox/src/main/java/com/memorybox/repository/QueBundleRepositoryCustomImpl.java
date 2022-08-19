@@ -1,5 +1,6 @@
 package com.memorybox.repository;
 
+import com.memorybox.constant.QCategory;
 import com.memorybox.dto.MainQueBundleDto;
 import com.memorybox.dto.QMainQueBundleDto;
 import com.memorybox.dto.QueBundleSearchDto;
@@ -30,16 +31,25 @@ public class QueBundleRepositoryCustomImpl implements QueBundleRepositoryCustom{
     public BooleanExpression searchByLike(String searchBy, String searchQuery) {
         if(StringUtils.equals("queBundleNm", searchBy)) {
             return QQueBundle.queBundle.queBundleNm.like("%"+searchQuery+"%");
-        } else if(StringUtils.equals("createdBy", searchBy)) {
+        } else if(StringUtils.equals("qCategory", searchBy)) {
             return QQueBundle.queBundle.createdBy.like("%"+searchQuery+"%");
         }
         return null;
     }
 
+    private BooleanExpression searchCategory(QCategory searchCategory){
+        return searchCategory == null ?
+                null : QQueBundle.queBundle.qCategory.eq(searchCategory);
+        //ItemSellStatus null이면 null 리턴 null 아니면 SELL, SOLD 둘중 하나 리턴
+    }
+
+
     @Override
     public Page<QueBundle> getAdminQueBundlePage(QueBundleSearchDto queBundleSearchDto, Pageable pageable) {
         QueryResults<QueBundle> results = queryFactory.selectFrom(QQueBundle.queBundle).
-                where(searchByLike(queBundleSearchDto.getSearchBy(), queBundleSearchDto.getSearchQuery()))
+                where(searchByLike(queBundleSearchDto.getSearchBy(), queBundleSearchDto.getSearchQuery()),
+                        regDtsAfter(queBundleSearchDto.getSearchDateType()),
+                        searchCategory(queBundleSearchDto.getSearchCategory()))
                 .orderBy(QQueBundle.queBundle.id.desc())
                 .offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
         List<QueBundle> content = results.getResults();
@@ -61,7 +71,9 @@ public class QueBundleRepositoryCustomImpl implements QueBundleRepositoryCustom{
                         queBundle.qCategory, queBundleImg.imgUrl))
                 // join 내부조인 .repImgYn.eq("Y") 대표이미지만 가져온다.
                  .from(queBundleImg).join(queBundleImg.queBundle, queBundle)
-                .where(queBundleNmLike(queBundleSearchDto.getSearchQuery()))
+                .where(queBundleNmLike(queBundleSearchDto.getSearchQuery()),
+                        searchCategory(queBundleSearchDto.getSearchCategory())
+                        )
                 .orderBy(queBundle.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
         List<MainQueBundleDto> content = results.getResults();
         long total = results.getTotal();
