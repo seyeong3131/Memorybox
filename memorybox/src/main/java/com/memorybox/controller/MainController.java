@@ -1,5 +1,6 @@
 package com.memorybox.controller;
 
+import com.memorybox.constant.QCategory;
 import com.memorybox.dto.MainQueBundleDto;
 import com.memorybox.dto.QueBundleSearchDto;
 import com.memorybox.dto.SaveQueAlertDto;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.security.Principal;
 import java.util.List;
@@ -50,6 +52,11 @@ public class MainController {
         model.addAttribute("maxPage",5);
         return "main";
 
+    }
+
+    @ModelAttribute("qCategory")
+    private QCategory[] qCategories(){
+        return QCategory.values();
     }
 
 }
