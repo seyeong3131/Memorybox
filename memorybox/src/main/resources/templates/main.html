@@ -6,7 +6,7 @@
 
 <!-- 사용자 CSS 추가 -->
 
-<th:block layout:fragment="css">
+<th:block layout:fragment="css" style="z-index: 1;">
     <style>
         .carousel-inner > .item {
             height : 350px;
@@ -54,7 +54,7 @@
           background-color: #111; /* Black*/
           overflow-x: hidden; /* Disable horizontal scroll */
           padding-top: 20px; /* Place content 60px from the top */
-          margin-top : 50px;
+          margin-top : 0;
         }
 
         /* The navigation menu links */
@@ -105,7 +105,7 @@
         <p class="h3 font-weight-bold" th:text="${queBundleSearchDto.searchQuery} + '검색결과'"></p>
     </div>
 
-    <div class="row">
+    <div style='margin-left:200px;' class="row">
         <th:block th:each="queBundle, status: ${queBundles.getContent()}">
             <div class="col-md-4-margin">
                 <div class="card">
@@ -152,8 +152,6 @@
     </div>
 
 
-<!--    "@{'/admin/questions/'+${questions.number}}"-->
-
     <div sec:authorize="isAuthenticated()" th:object="${saveQueAlertDtoList}" class="questionBox">
         <div th:if="${not #lists.isEmpty(saveQueAlertDtoList)}"><a
                 th:href="@{'/saveQueBook/' + ${saveQueAlertDtoList[0].saveQueBookId}">문제풀기</a></div>
@@ -161,4 +159,6 @@
     </div>
 
 </div>
+
+
 
