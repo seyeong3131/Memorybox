@@ -44,7 +44,6 @@ public class MemberService  implements UserDetailsService{
 
     public Long findMemberId(String email){
         Member member = memberRepository.findByEmail(email);
-
         return member.getId();
     }
 

@@ -3,10 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout1}">
+<head>
+    <meta name = "google-signin-client_id" content = "306531147519-v45k9ppq04qr5eqb8886g1onik0a64v0.apps.googleusercontent.com">
+</head>
 
 <!-- 사용자 CSS 추가 -->
 
-<th:block layout:fragment="css">
+<th:block layout:fragment="css" style="z-index: 1;">
     <style>
         .carousel-inner > .item {
             height : 350px;
@@ -32,6 +35,7 @@
         .center{
             text-align:center;
         }
+
         .questionBox{
             text-align: center;
             height: 100px;
@@ -43,53 +47,70 @@
             border: 1px solid black;
         }
 
-
         .sidenav {
-          height: 100%; /* 100% Full-height */
-          width: 200px; /* 0 width - change this with JavaScript */
-          position: fixed; /* Stay in place */
-          z-index: 1; /* Stay on top */
-          top: 0; /* Stay at the top */
+          height: 100%;
+          width: 0;
+          position: fixed;
+          z-index: 1;
+          top: 0;
           left: 0;
-          background-color: #111; /* Black*/
-          overflow-x: hidden; /* Disable horizontal scroll */
-          padding-top: 20px; /* Place content 60px from the top */
-          margin-top : 50px;
+          background-color: #111;
+          overflow-x: hidden;
+          transition: 0.5s;
+          padding-top: 60px;
         }
 
-        /* The navigation menu links */
         .sidenav a {
-          padding: 6px 6px 6px 6px 32px;
+          padding: 8px 8px 8px 32px;
           text-decoration: none;
           font-size: 25px;
           color: #818181;
           display: block;
+          transition: 0.3s;
         }
 
-        /* When you mouse over the navigation links, change their color */
         .sidenav a:hover {
           color: #f1f1f1;
         }
+
+        .sidenav .closebtn {
+          position: absolute;
+          top: 0;
+          right: 25px;
+          font-size: 36px;
+          margin-left: 50px;
+        }
+
+        @media screen and (max-height: 450px) {
+          .sidenav {padding-top: 15px;}
+          .sidenav a {font-size: 18px;}
+        }
+
+
     </style>
 </th:block>
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-<!--        $(document).ready(function(){-->
-<!--            $("searchBtn").on("click",function(e){-->
-<!--                e.preventDefault(); //검색버튼 클릭시 form 태그 전송을 막습니다.-->
-<!--                page(0);-->
-<!--            });-->
-<!--        });-->
+        function openNav() {
+             document.getElementById("mySidenav").style.width = "250px";
+             }
 
-        function page(page){
-            var searchCategory = $("#searchCategory").val();
-            location.href="/" + page + "?searchCategory=" + searchCategory
-        }
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+          }
+
     </script>
+    <script src="http://apis.googles.com/js/platform.js" async defer></script>
 </th:block>
 
+
+
 <div layout:fragment="content">
+
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Category</span>
 
     <div id="carouselControls" class="carousel slide margin" data-ride="carousel">
         <div class="carousel-inner">
@@ -105,7 +126,7 @@
         <p class="h3 font-weight-bold" th:text="${queBundleSearchDto.searchQuery} + '검색결과'"></p>
     </div>
 
-    <div class="row">
+    <div style='margin-left:200px;' class="row">
         <th:block th:each="queBundle, status: ${queBundles.getContent()}">
             <div class="col-md-4-margin">
                 <div class="card">
@@ -146,13 +167,10 @@
         </ul>
     </div>
 
-    <div class="sidenav" th:object="${queBundleSearchDto}">
+    <div id="mySidenav" class="sidenav" th:object="${queBundleSearchDto}">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a th:href="@{'/' + '?searchCategory=' + ${qCate}}" th:each="qCate : ${qCategory}"  th:text="${qCate.description}">카테고리</a>
-
     </div>
-
-
-<!--    "@{'/admin/questions/'+${questions.number}}"-->
 
     <div sec:authorize="isAuthenticated()" th:object="${saveQueAlertDtoList}" class="questionBox">
         <div th:if="${not #lists.isEmpty(saveQueAlertDtoList)}"><a
@@ -160,5 +178,9 @@
         <div th:unless="${not #lists.isEmpty(saveQueAlertDtoList)}">X</div>
     </div>
 
+
 </div>
+
+
+
 
