@@ -3,9 +3,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout1}">
-<head>
-    <meta name = "google-signin-client_id" content = "306531147519-v45k9ppq04qr5eqb8886g1onik0a64v0.apps.googleusercontent.com">
-</head>
 
 <!-- 사용자 CSS 추가 -->
 
@@ -35,7 +32,6 @@
         .center{
             text-align:center;
         }
-
         .questionBox{
             text-align: center;
             height: 100px;
@@ -46,6 +42,7 @@
             background-color: #ccc;
             border: 1px solid black;
         }
+
 
         .sidenav {
           height: 100%;
@@ -60,6 +57,7 @@
           padding-top: 60px;
         }
 
+        /* The navigation menu links */
         .sidenav a {
           padding: 8px 8px 8px 32px;
           text-decoration: none;
@@ -69,6 +67,7 @@
           transition: 0.3s;
         }
 
+        /* When you mouse over the navigation links, change their color */
         .sidenav a:hover {
           color: #f1f1f1;
         }
@@ -85,30 +84,34 @@
           .sidenav {padding-top: 15px;}
           .sidenav a {font-size: 18px;}
         }
-
-
     </style>
 </th:block>
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-        function openNav() {
+<!--        $(document).ready(function(){-->
+<!--            $("searchBtn").on("click",function(e){-->
+<!--                e.preventDefault(); //검색버튼 클릭시 form 태그 전송을 막습니다.-->
+<!--                page(0);-->
+<!--            });-->
+<!--        });-->
+
+        function page(page){
+            var searchCategory = $("#searchCategory").val();
+            location.href="/" + page + "?searchCategory=" + searchCategory
+        }
+
+          function openNav() {
              document.getElementById("mySidenav").style.width = "250px";
              }
 
         function closeNav() {
           document.getElementById("mySidenav").style.width = "0";
           }
-
     </script>
-    <script src="http://apis.googles.com/js/platform.js" async defer></script>
 </th:block>
 
-
-
 <div layout:fragment="content">
-
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
     <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Category</span>
 
@@ -167,10 +170,13 @@
         </ul>
     </div>
 
+
     <div id="mySidenav" class="sidenav" th:object="${queBundleSearchDto}">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a th:href="@{'/' + '?searchCategory=' + ${qCate}}" th:each="qCate : ${qCategory}"  th:text="${qCate.description}">카테고리</a>
+
     </div>
+
 
     <div sec:authorize="isAuthenticated()" th:object="${saveQueAlertDtoList}" class="questionBox">
         <div th:if="${not #lists.isEmpty(saveQueAlertDtoList)}"><a
@@ -178,9 +184,7 @@
         <div th:unless="${not #lists.isEmpty(saveQueAlertDtoList)}">X</div>
     </div>
 
-
 </div>
-
 
 
 

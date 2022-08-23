@@ -2,17 +2,14 @@ package com.memorybox.service;
 
 import com.memorybox.dto.QuestionFormDto;
 import com.memorybox.dto.QuestionSearchDto;
-import com.memorybox.entity.Member;
-import com.memorybox.entity.QueBundle;
-import com.memorybox.entity.Question;
-import com.memorybox.repository.MemberRepository;
-import com.memorybox.repository.QueBundleRepository;
-import com.memorybox.repository.QuestionRepository;
+import com.memorybox.entity.*;
+import com.memorybox.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityExistsException;
@@ -28,9 +25,17 @@ public class QuestionService {
 
     private final QueBundleRepository queBundleRepository;
 
-    public Long saveQuestion(QuestionFormDto questionFormDto) throws Exception{
+    private final QuestionImgService questionImgService;
+    private final QuestionImgRepository questionImgRepository;
+
+    public Long saveQuestion(QuestionFormDto questionFormDto, MultipartFile questionImgFile) throws Exception{
         Question question = questionFormDto.createQuestion(queBundleRepository);
         questionRepository.save(question);
+
+        QuestionImg questionImg = new QuestionImg();
+        questionImg.setQuestion(question);
+        questionImg.setRepImgYn("Y");
+        questionImgService.saveQuestionImg(questionImg, questionImgFile);
 
         return question.getId();
     }
@@ -42,9 +47,11 @@ public class QuestionService {
         return questionFormDto;
     }
 
-    public Long updateQuestion(QuestionFormDto questionFormDto) throws Exception{
+    public Long updateQuestion(QuestionFormDto questionFormDto, MultipartFile questionImgFile) throws Exception{
         Question question = questionRepository.findById(questionFormDto.getId()).orElseThrow(EntityNotFoundException::new);
         QueBundle queBundle = queBundleRepository.findByQueBundleNm(questionFormDto.getQueBundleNm());
+        Long questionImgId = questionFormDto.getQuestionImgId();
+        questionImgService.updateQuestionImg(questionImgId, questionImgFile);
         question.updateQuestion(questionFormDto, queBundle);
 
         return question.getId();

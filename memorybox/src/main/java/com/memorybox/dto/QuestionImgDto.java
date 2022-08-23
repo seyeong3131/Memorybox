@@ -1,6 +1,7 @@
 package com.memorybox.dto;
 
 import com.memorybox.entity.QueBundleImg;
+import com.memorybox.entity.QuestionImg;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import org.modelmapper.ModelMapper;
 
 @Getter
 @Setter
-public class QueBundleImgDto {
+public class QuestionImgDto {
     private Long id;
 
     private String imgName;
@@ -21,6 +22,6 @@ public class QueBundleImgDto {
     private static ModelMapper modelMapper = new ModelMapper();
 
 
-    public static QueBundleImgDto of(QueBundleImg queBundleImg){
-        return modelMapper.map(queBundleImg,QueBundleImgDto.class);}
-    }
+    public static QuestionImgDto of(QuestionImg questionImg){
+        return modelMapper.map(questionImg,QuestionImgDto.class);}
+}

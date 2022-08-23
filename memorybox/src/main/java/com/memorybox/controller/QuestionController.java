@@ -38,13 +38,19 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/admin/question/new")
-    public String questionNew(@Valid QuestionFormDto questionFormDto, BindingResult bindingResult, Model model){
+    public String questionNew(@Valid QuestionFormDto questionFormDto, BindingResult bindingResult, Model model, @RequestParam("questionImgFile") MultipartFile questionImgFile){
         if(bindingResult.hasErrors()){
             return "question/questionForm";
         }
 
+        if (questionImgFile.isEmpty() && questionFormDto.getId() == null) {
+            model.addAttribute("errorMessage",
+                    "문제지 이미지는 필수 입력 값입니다.");
+            return "question/questionForm";
+        }
+
         try{
-            questionService.saveQuestion(questionFormDto);
+            questionService.saveQuestion(questionFormDto, questionImgFile);
         }catch (Exception e){
             model.addAttribute("errorMessage", "문제 등록 중 에러가 발생하였습니다.");
             return "question/questionForm";
@@ -68,12 +74,17 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/admin/question/{que_Id}")
-    public String questionUpdate(@Valid QuestionFormDto questionFormDtoFormDto, BindingResult bindingResult, Model model){
+    public String questionUpdate(@Valid QuestionFormDto questionFormDto, BindingResult bindingResult, Model model,  @RequestParam("questionImgFile") MultipartFile questionImgFile){
         if (bindingResult.hasErrors()) {
             return "question/questionForm";
         }
+        if (questionImgFile.isEmpty() && questionFormDto.getId() == null) {
+            model.addAttribute("errorMessage",
+                    "문제지 이미지는 필수 입력 값입니다.");
+            return "queBundle/queBundleForm";
+        }
         try {
-            questionService.updateQuestion(questionFormDtoFormDto);
+            questionService.updateQuestion(questionFormDto, questionImgFile);
         } catch (Exception e) {
             model.addAttribute("errorMessage", "문제 수정 중 에러가 발생하였습니다.");
             return "question/questionForm";
