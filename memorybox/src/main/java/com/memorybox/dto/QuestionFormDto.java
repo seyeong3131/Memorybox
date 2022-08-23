@@ -23,6 +23,10 @@ public class QuestionFormDto {
 
     @NotNull(message = "문제지 분류는 필수 입력값읍니다.")
     private String queBundleNm;
+
+    private QueBundleImgDto queBundleImgDto; //이미지 정보
+
+    private Long questionImgId;
     public Question createQuestion(QueBundleRepository queBundleRepository){
         Question question = new Question();
         question.setQueDetail(this.queDetail);

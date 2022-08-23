@@ -83,7 +83,17 @@
             </div>
             <textarea class="form-control" aria-label="With textarea" th:field="*{queBackDetail}"></textarea>
         </div>
+
         <p th:if="${#fields.hasErrors('queBackDetail')}" th:errors="*{queBackDetail}" class="fieldError">Incorrect data</p>
+
+        <div>
+            <div class="form-group" th:each="num: ${#numbers.sequence(1,1)}">
+                <div class="custom-file img-div">
+                    <input type="file" class="custom-file-input" name="questionImgFile">
+                    <label class="custom-file-label" th:text="문제이미지 + ${num}"></label>
+                </div>
+            </div>
+        </div>
 
         <div th:if="${#strings.isEmpty(questionFormDto.id)}" style="text-align : center">
             <button th:formaction="@{/admin/question/new}" type="submit" class="btn btn-primary">저장</button>
