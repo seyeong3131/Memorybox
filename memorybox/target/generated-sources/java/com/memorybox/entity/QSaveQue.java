@@ -24,14 +24,10 @@ public class QSaveQue extends EntityPathBase<SaveQue> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final NumberPath<Integer> count = createNumber("count", Integer.class);
-
     //inherited
     public final StringPath createdBy = _super.createdBy;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
-
-    public final QMember member;
 
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
@@ -64,7 +60,6 @@ public class QSaveQue extends EntityPathBase<SaveQue> {
 
     public QSaveQue(Class<? extends SaveQue> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
         this.question = inits.isInitialized("question") ? new QQuestion(forProperty("question"), inits.get("question")) : null;
         this.saveQueBook = inits.isInitialized("saveQueBook") ? new QSaveQueBook(forProperty("saveQueBook"), inits.get("saveQueBook")) : null;
     }
