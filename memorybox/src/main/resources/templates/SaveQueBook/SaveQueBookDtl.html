@@ -10,15 +10,15 @@
     $(document).ready(function(){
         count = 6;
         /*<![CDATA[*/
-        maxCard = /*[[${questionDtoList.size()}]]*/;
-        var queDetail = [];
-        var queBackDetail = [];
-        var queImgUrl = [];
-        for (let i=0; i<maxCount ; i++){
-            queDetail[i] = /*[[${questionDtoList[i].queDetail}]]*/;
-            queBackDetail[i] = /*[[${questionDtoList[i].queBackDetail}]]*/;
-            queImgUrl[i] = /*[[${questionDtoList[i].queImgUrl}]]*/;
-        }
+            maxCard = /*[[${questionDtoList.size()}]]*/;
+            var queDetail = [];
+            var queBackDetail = [];
+            var queImgUrl = [];
+            for (let i=0; i<maxCount ; i++){
+                queDetail[i] = /*[[${questionDtoList[i].queDetail}]]*/;
+                queBackDetail[i] = /*[[${questionDtoList[i].queBackDetail}]]*/;
+                queImgUrl[i] = /*[[${questionDtoList[i].queImgUrl}]]*/;
+            }
         /*]]>*/
 
         makeBox();
@@ -335,10 +335,6 @@
         }
     </style>
 </th:block>
-
-<div  th:each="SaveQueDto : ${SaveQueDtoList}" hidden>
-    <div ></div>
-</div>
 
 <div layout:fragment="content" id="questionScreen">
 </div>

@@ -87,10 +87,18 @@ public class QuestionService {
 
     public List<QuestionDto> getSaveQuestionDtoList(Long saveQueBookId){
         List<QuestionDto> questionDtoList = new ArrayList<>();
-        List<Long> saveQueIdList = saveQueRepository.findIdBySaveQueBookId(saveQueBookId);
+        List<Long> saveQueIdList = new ArrayList<>();
+        List<SaveQue> saveQues = saveQueRepository.findBySaveQueBookId(saveQueBookId);
+        for(SaveQue saveQue : saveQues){
+            saveQueIdList.add(saveQue.getId());
+        }
 
         for (Long saveQueId : saveQueIdList){
-            questionDtoList.add(new QuestionDto(questionRepository.findQueById(saveQueRepository.findQueIdById(saveQueId)), questionImgRepository));
+            Long questionId = saveQueRepository.findQueIdById(saveQueId);
+            Question question = questionRepository.findOneById(questionId);
+            QuestionDto questionDto
+                    = new QuestionDto(question, questionImgRepository);
+            questionDtoList.add(questionDto);
         }
 
         return questionDtoList;
