@@ -14,4 +14,8 @@ public interface SaveQueRepository extends JpaRepository<SaveQue, Long> {
     SaveQue findBySaveQueBookIdAndQuestionId(Long saveQueBookId, Long QuestionId);
     List<SaveQue> findBySaveQueBookId(Long saveQueBookId);
 
+    List<Long> findIdBySaveQueBookId(Long saveQueBookId);
+
+    Long findQueIdById(Long id);
+
 }

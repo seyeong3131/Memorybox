@@ -16,13 +16,13 @@
 <body>
 
 
-<div th:replace="fragments/header::header" style="z-index: 2;"></div>
+    <div th:replace="fragments/header::header"style="z-index: 2;"></div>
 
+    <div layout:fragment="content" class="content" style="z-index: 1;">
 
-<div layout:fragment="content" class="content"></div>
+    </div>
 
-
-<div th:replace="fragments/footer::footer"></div>
+    <div th:fragment="fragments/footer::footer"></div>
 
 </body>
 </html>

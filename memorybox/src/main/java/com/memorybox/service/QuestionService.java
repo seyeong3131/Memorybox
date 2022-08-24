@@ -1,5 +1,6 @@
 package com.memorybox.service;
 
+import com.memorybox.dto.QuestionDto;
 import com.memorybox.dto.QuestionFormDto;
 import com.memorybox.dto.QuestionSearchDto;
 import com.memorybox.entity.*;
@@ -14,6 +15,8 @@ import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -27,6 +30,7 @@ public class QuestionService {
 
     private final QuestionImgService questionImgService;
     private final QuestionImgRepository questionImgRepository;
+    private final SaveQueRepository saveQueRepository;
 
     public Long saveQuestion(QuestionFormDto questionFormDto, MultipartFile questionImgFile) throws Exception{
         Question question = questionFormDto.createQuestion(queBundleRepository);
@@ -41,7 +45,7 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
-    public QuestionFormDto getQuestionDto(Long QuestionId){
+    public QuestionFormDto getQuestionFormDto(Long QuestionId){
         Question question = questionRepository.findById(QuestionId).orElseThrow(EntityNotFoundException::new);
         QuestionFormDto questionFormDto = QuestionFormDto.of(question);
         return questionFormDto;
@@ -79,5 +83,16 @@ public class QuestionService {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(EntityExistsException::new);
         questionRepository.delete(question);
+    }
+
+    public List<QuestionDto> getSaveQuestionDtoList(Long saveQueBookId){
+        List<QuestionDto> questionDtoList = new ArrayList<>();
+        List<Long> saveQueIdList = saveQueRepository.findIdBySaveQueBookId(saveQueBookId);
+
+        for (Long saveQueId : saveQueIdList){
+            questionDtoList.add(new QuestionDto(questionRepository.findQueById(saveQueRepository.findQueIdById(saveQueId)), questionImgRepository));
+        }
+
+        return questionDtoList;
     }
 }

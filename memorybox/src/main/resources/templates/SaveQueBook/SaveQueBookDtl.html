@@ -9,10 +9,18 @@
     var maxCard;
     $(document).ready(function(){
         count = 6;
-        maxCard = prompt('원하는 값을 입력하세요!', '0 이상의 정수를 입력하세요');
-        while(maxCard<0){
-            maxCard = prompt('지정된 범위를 벗어난 값입니다. 다시 입력해주세요', '0 이상의 정수를 입력하세요');
+        /*<![CDATA[*/
+        maxCard = /*[[${questionDtoList.size()}]]*/;
+        var queDetail = [];
+        var queBackDetail = [];
+        var queImgUrl = [];
+        for (let i=0; i<maxCount ; i++){
+            queDetail[i] = /*[[${questionDtoList[i].queDetail}]]*/;
+            queBackDetail[i] = /*[[${questionDtoList[i].queBackDetail}]]*/;
+            queImgUrl[i] = /*[[${questionDtoList[i].queImgUrl}]]*/;
         }
+        /*]]>*/
+
         makeBox();
     });
 
@@ -40,15 +48,18 @@
             var cardFront = document.createElement('div');
             cardFront.className = 'card-front';
             var frontText = document.createElement('p');
+            var frontImg = document.createElement('img');
             var cardBack = document.createElement('div');
             var backText = document.createElement('p');
             cardBack.className = 'card-back';
             cardInner.appendChild(cardFront);
+            cardFront.appendChild(frontImg);
             cardFront.appendChild(frontText);
-            frontText.append("앞면" + i);
+            frontImg.setAttribute("src", queImgUrl[i-1]);
+            frontText.append(queDetail[i-1]);
             cardInner.appendChild(cardBack);
             cardBack.appendChild(backText);
-            backText.append("뒷면" + i);
+            backText.append(queBackDetail[i-1]);
             card.appendChild(cardInner);
 
             card.addEventListener('click', function () {
@@ -147,15 +158,19 @@
         var cardFront = document.createElement('div');
         cardFront.className = 'card-front';
         var frontText = document.createElement('p');
+        var frontImg = document.createElement('img');
         var cardBack = document.createElement('div');
         var backText = document.createElement('p');
         cardBack.className = 'card-back';
         cardInner.appendChild(cardFront);
+        cardFront.appendChild(frontImg);
         cardFront.appendChild(frontText);
-        frontText.append("앞면" + count);
+        frontImg.setAttribute("src", queImgUrl[count-1]);
+        frontText.append(queDetail[count-1]);
         cardInner.appendChild(cardBack);
         cardBack.appendChild(backText);
-        backText.append("뒷면" + (count++));
+        backText.append(queBackDetail[count-1]);
+        count++;
         card.appendChild(cardInner);
 
         return card;
@@ -321,7 +336,11 @@
     </style>
 </th:block>
 
-<div layout:fragment="content" id="questionScreen" th:object="${SaveQueList}">
+<div  th:each="SaveQueDto : ${SaveQueDtoList}" hidden>
+    <div ></div>
+</div>
+
+<div layout:fragment="content" id="questionScreen">
 </div>
 
 
