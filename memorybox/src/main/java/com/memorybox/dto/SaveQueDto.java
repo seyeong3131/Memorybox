@@ -11,7 +11,4 @@ import javax.validation.constraints.NotNull;
 public class SaveQueDto {
     @NotNull(message = "문제 아이디는 필수 입력 값 입니다.")
     private Long QuestionId;
-
-    @Min(value = 1,message = "최소 1문제 이상 담아주세요.")
-    private int count;
 }
