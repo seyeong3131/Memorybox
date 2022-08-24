@@ -62,7 +62,7 @@ public class QuestionController {
     public String questionDtl(@PathVariable("que_id")Long questionId, Model model){
         try{
             model.addAttribute("queBundleNmList",queBundleService.queBundleNmList());
-            QuestionFormDto questionFormDto = questionService.getQuestionDto(questionId);
+            QuestionFormDto questionFormDto = questionService.getQuestionFormDto(questionId);
             model.addAttribute("questionFormDto", questionFormDto);
         }catch (Exception e){
             model.addAttribute("errorMessage", "존재하지 않는 문제입니다.");

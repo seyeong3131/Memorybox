@@ -1,8 +1,12 @@
 package com.memorybox.controller;
 
+import com.memorybox.dto.QuestionDto;
 import com.memorybox.dto.SaveQueDto;
 import com.memorybox.dto.SaveQueBookDto;
+import com.memorybox.entity.Question;
 import com.memorybox.entity.SaveQue;
+import com.memorybox.repository.QuestionRepository;
+import com.memorybox.service.QuestionService;
 import com.memorybox.service.SaveQueBookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,15 +19,22 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class SaveQueBookController {
     private final SaveQueBookService saveQueBookService;
+    private final QuestionService questionService;
 
-    @GetMapping(value = "/saveQueBook")
-    public String showdtl(){ return "SaveQueBook/SaveQueBookDtl"; }
+    @GetMapping(value = "/saveQueBook/{saveQueBookId}")
+    public String showdtl(Model model, @PathVariable("saveQueBookId") Long saveQueBookId){
+        List<QuestionDto> questionDtoList = questionService.getSaveQuestionDtoList(saveQueBookId);
+
+        model.addAttribute("questionDtoList", questionDtoList);
+        return "SaveQueBook/SaveQueBookDtl";
+    }
 
 
         @PatchMapping(value = "/saveQue/{saveQueId}")

@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityExistsException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,12 +32,12 @@ class QuestionServiceTest {
     @Test
     @DisplayName("문제 등록 테스트")
     @WithMockUser(username = "admin", roles = "ADMIN")
-    void saveQuestion() throws Exception{
+    void saveQuestion(MultipartFile multipartFile) throws Exception{
         QuestionFormDto questionFormDto = new QuestionFormDto();
         questionFormDto.setQueDetail("테스트 문제입니다.");
         questionFormDto.setQueBackDetail("테스트 문제 해설입니다.");
 
-        Long queId = questionService.saveQuestion(questionFormDto);
+        Long queId = questionService.saveQuestion(questionFormDto, multipartFile);
 
         Question question = questionRepository.findById(queId).orElseThrow(EntityExistsException::new);
         assertEquals(questionFormDto.getQueDetail(), question.getQueDetail());
