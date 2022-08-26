@@ -1,5 +1,6 @@
 package com.memorybox.dto;
 
+import com.memorybox.constant.Role;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -24,4 +25,6 @@ public class MemberFormDto {
     @Email(message = "이메일 형식으로 입력해 주세요.")
     @NotEmpty(message = "이메일은 필수 입력 값입니다.")
     private String email;
+
+    private Role role;
 }
