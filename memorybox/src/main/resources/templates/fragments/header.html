@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+  <style>
+    .navbar-main-icon{
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        border-radius: 50px;
+        font-size: 20px;
+        border: 0;
+    }
+  </style>
+</th:block>
 <div th:fragment="header" >
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -9,7 +25,7 @@
             aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="/">Quiz</a>
+    <div class="navbar-main-icon"><a style="color:rgba(255,255,255,.5);" href="/"><i class="fa-brands fa-quora fa-3x fa-spin"></i></a></div>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
