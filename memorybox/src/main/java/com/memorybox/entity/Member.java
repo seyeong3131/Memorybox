@@ -39,7 +39,7 @@ public class Member extends BaseEntity {
         this.nick = memberFormDto.getNick();
         this.password = passwordEncoder.encode(memberFormDto.getPassword());
         this.email = memberFormDto.getEmail();
-        this.role = Role.ADMIN;
+        this.role = memberFormDto.getRole();
     }
 
 //

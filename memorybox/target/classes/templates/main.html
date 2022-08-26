@@ -118,7 +118,10 @@
     <div id="carouselControls" class="carousel slide margin" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active item">
-                <img src="https://user-images.githubusercontent.com/13268420/112147492-1ab76200-8c20-11eb-8649-3d2f282c3c02.png"
+<!--                <img src="https://user-images.githubusercontent.com/13268420/112147492-1ab76200-8c20-11eb-8649-3d2f282c3c02.png"-->
+<!--                     class="d-block w-100 banner" alt="First slide">-->
+
+                <img src="https://cdn.pixabay.com/photo/2020/04/03/05/20/summer-4997454__340.jpg"
                      class="d-block w-100 banner" alt="First slide">
             </div>
         </div>
@@ -135,10 +138,10 @@
                 <div class="card">
                     <a th:href="'/queBundle/' + ${queBundle.id}" class="text-dark">
                         <img th:src="${queBundle.imgUrl}" class="card-img-top" th:alt="${queBundle.queBundleNm}"
-                             height="400">
+                             height="150">
                         <div class="card-body">
-                            <h4 class="card-title">[[${queBundle.queBundleNm}]]</h4>
-                            <p class="card-text">[[${queBundle.qCategory.description}]]</p>
+                            <h4 style="text-align:center;" class="card-title">[[${queBundle.queBundleNm}]]</h4>
+                            <p style="text-align:right;" class="card-text">카테고리 : [[${queBundle.qCategory.description}]]</p>
                         </div>
                     </a>
                 </div>

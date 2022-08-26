@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
       layout:decorate="~{layouts/layout1}">
 
 <th:block layout:fragment="css">
@@ -24,6 +24,16 @@
 
 <div layout:fragment="content">
     <form action="/members/new" role="form" method="post" th:object="${memberFormDto}">
+        <div class="form-group">
+            <div class="form-group">
+                <label th:for="role">Account Type</label><br>
+                <input type="radio" id="admin" th:field="*{role}" th:value="${T(com.memorybox.constant.Role).ADMIN}"checked>
+                <lable style="font-size:30px;" for="admin" class="form-check-box">admin</lable>
+                <input type="radio" id="user" th:field="*{role}" th:value="${T(com.memorybox.constant.Role).USER}">
+                <lable style="font-size:30px;" for="user" class="form-check-box">user</lable>
+                <p th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="fieldError">Incorrect date</p>
+            </div>
+        </div>
         <div class="form-group">
             <label th:for="name">이름</label>
             <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력해주세요.">
