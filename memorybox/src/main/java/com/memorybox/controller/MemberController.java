@@ -59,7 +59,7 @@ public class MemberController {
             return "member/memberForm";
         }
         try {
-            member.setRole(Role.USER);
+//            member.setRole(Role.USER);
 
             String encodePwd = bCryptPasswordEncoder.encode(member.getPassword());
             member.setPassword(encodePwd);
