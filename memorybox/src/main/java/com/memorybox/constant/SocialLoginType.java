@@ -1,5 +1,5 @@
 package com.memorybox.constant;
 
 public enum SocialLoginType {
-    GOOGLE
+    GOOGLE, NAVER
 }

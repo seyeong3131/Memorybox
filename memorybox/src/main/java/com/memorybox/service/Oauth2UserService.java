@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -34,14 +35,47 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        String provider = userRequest.getClientRegistration().getRegistrationId();    //google
+        String provider = userRequest.getClientRegistration().getRegistrationId();
+        if(provider=="google") { // google
+            return ofGoogle(oAuth2User, provider);
+        }
+        return ofNaver(oAuth2User, provider); // naver
+    }
+
+    public PrincipalRepository ofGoogle(OAuth2User oAuth2User, String provider){
         String providerId = oAuth2User.getAttribute("sub");
-        String username = oAuth2User.getAttribute("email");  			// 사용자가 입력한 적은 없지만 만들어준다
+        String username = oAuth2User.getAttribute("email");
+        // 사용자가 입력한 적은 없지만 만들어준다
 
         String uuid = UUID.randomUUID().toString().substring(0, 6);
         String password = bCryptPasswordEncoder.encode("패스워드"+uuid);  // 사용자가 입력한 적은 없지만 만들어준다
 
         String email = oAuth2User.getAttribute("email");
+        Role role = Role.USER;
+
+        Member byUsername = memberRepository.findByName(username);
+
+        //DB에 없는 사용자라면 회원가입처리
+        if(byUsername == null){
+            byUsername = Member.oauth2Register()
+                    .name(username).password(password).email(email).role(role)
+                    .provider(provider).providerId(providerId)
+                    .build();
+            memberRepository.save(byUsername);
+        }
+
+        return new PrincipalRepository(byUsername, oAuth2User.getAttributes());
+    }
+
+    public PrincipalRepository ofNaver(OAuth2User oAuth2User, String provider){
+        Map<String, Object> response = (Map<String,Object>) oAuth2User.getAttributes().get("response");
+        String providerId = response.get("id").toString();
+        String username = response.get("email").toString();
+
+        String uuid = UUID.randomUUID().toString().substring(0, 6);
+        String password = bCryptPasswordEncoder.encode("패스워드"+uuid);  // 사용자가 입력한 적은 없지만 만들어준다
+
+        String email = response.get("email").toString();
         Role role = Role.USER;
 
         Member byUsername = memberRepository.findByName(username);
