@@ -82,6 +82,8 @@ public class QuestionService {
     public void deleteQuestion(Long questionId){
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(EntityExistsException::new);
+        QuestionImg questionImg = questionImgRepository.findByQuestionId(questionId);
+        questionImgRepository.delete(questionImg);
         questionRepository.delete(question);
     }
 
