@@ -34,13 +34,25 @@
         }
         .questionBox{
             text-align: center;
-            height: 100px;
-            width: 100px;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+            width: 120px;
             position: fixed;
             right: 5%;
             bottom 5%;
+            border-radius: 50%;
+            border: 0;
+            box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4), -3px -3px 5px rgba(0, 0, 0, 0.1);
+        }
+        .inBoxIcon{
+            margin: 20px auto;
+        }
+        .questionBoxOff{
             background-color: #ccc;
-            border: 1px solid black;
+        }
+        .questionBoxOn{
+            background-color: blue;
         }
 
 
@@ -181,10 +193,12 @@
     </div>
 
 
-    <div sec:authorize="isAuthenticated()" th:object="${saveQueAlertDtoList}" class="questionBox">
-        <div th:if="${not #lists.isEmpty(saveQueAlertDtoList)}"><a
-                th:href="@{'/saveQueBook/' + ${saveQueAlertDtoList[0].saveQueBookId}">문제풀기</a></div>
-        <div th:unless="${not #lists.isEmpty(saveQueAlertDtoList)}">X</div>
+    <div sec:authorize="isAuthenticated()" th:object="${saveQueAlertDtoList}">
+        <div th:if="${not #lists.isEmpty(saveQueAlertDtoList)}" class="questionBox questionBoxOn"><a
+                th:href="@{'/saveQueBook/' + ${saveQueAlertDtoList[0].saveQueBookId}">
+                    <i class="fa-regular fa-cards-blank fa-5x inBoxIcon"></i></a></div>
+        <div th:unless="${not #lists.isEmpty(saveQueAlertDtoList)}" class="questionBox questionBoxOff">
+            <i class="fa-solid fa-x fa-5x inBoxIcon"></i></i></div>
     </div>
 
 </div>
