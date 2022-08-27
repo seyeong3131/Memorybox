@@ -36,7 +36,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         String provider = userRequest.getClientRegistration().getRegistrationId();
-        if(provider=="google") { // google
+        if("google".equals(provider)) { // google
             return ofGoogle(oAuth2User, provider);
         }
         return ofNaver(oAuth2User, provider); // naver
