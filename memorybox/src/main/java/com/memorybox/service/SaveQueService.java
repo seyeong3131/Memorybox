@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,5 +28,16 @@ public class SaveQueService {
         }
 
         return saveQueAlertDtoList;
+    }
+
+    public Long findSaveQueId(Long saveQueBookId, Long questionId){
+        SaveQue saveQue = saveQueRepository.findBySaveQueBookIdAndQuestionId(saveQueBookId, questionId);
+        return saveQue.getId();
+    }
+
+    public void deleteSaveQue(Long saveQueId){
+        SaveQue saveQue = saveQueRepository.findById(saveQueId)
+                .orElseThrow(EntityExistsException::new);
+        saveQueRepository.delete(saveQue);
     }
 }
