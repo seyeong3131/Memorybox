@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:float="http://www.w3.org/1999/xhtml">
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
   <style>
@@ -25,10 +25,10 @@
             aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="navbar-main-icon"><a style="color:rgba(255,255,255,.5);" href="/"><i class="fa-brands fa-quora fa-3x fa-spin"></i></a></div>
+    <div class="navbar-main-icon" margin-rignt="20px"><a style="color:rgba(255,255,255,.5);" href="/"><i class="fa-brands fa-quora fa-3x fa-spin"></i></a></div>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav mr-auto mb-2 mb-lg-0" >
         <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
           <a class="nav-link" href="/admin/queBundle/new">문제지 등록</a>
         </li>
@@ -49,7 +49,7 @@
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0" th:action="@{/}" method="get">
-        <input name="searchQuery" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input name="searchQuery" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
