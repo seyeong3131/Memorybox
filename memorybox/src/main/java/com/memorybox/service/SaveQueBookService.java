@@ -1,11 +1,10 @@
 package com.memorybox.service;
 
+import com.memorybox.dto.MyQueBoxDetailDto;
 import com.memorybox.dto.QuestionFormDto;
+import com.memorybox.dto.SaveQueBookDto;
 import com.memorybox.dto.SaveQueDto;
-import com.memorybox.entity.Member;
-import com.memorybox.entity.Question;
-import com.memorybox.entity.SaveQue;
-import com.memorybox.entity.SaveQueBook;
+import com.memorybox.entity.*;
 import com.memorybox.repository.MemberRepository;
 import com.memorybox.repository.QuestionRepository;
 import com.memorybox.repository.SaveQueBookRepository;
@@ -19,6 +18,8 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static com.memorybox.entity.QSaveQue.saveQue;
@@ -51,7 +52,7 @@ public class SaveQueBookService {
         SaveQue savedSaveQue = saveQueRepository.findBySaveQueBookIdAndQuestionId(saveQueBook.getId(), question.getId());
 
         if (savedSaveQue != null){
-            return savedSaveQue.getId();
+            throw new IllegalStateException("이미 저장된 문제입니다.");
         }
         else {
             SaveQue saveQue = SaveQue.createSaveQue(saveQueBook , question);
@@ -70,6 +71,21 @@ public class SaveQueBookService {
             return true;
         }
         return false;
+    }
+
+    @Transactional(readOnly = true)
+    public List<SaveQueBookDto> getSaveQueBookList(String email){
+        List<SaveQueBookDto> saveQueBookDtoList = new ArrayList<>();
+
+        Member member = memberRepository.findByEmail(email);
+
+        SaveQueBook saveQueBook = saveQueBookRepository.findByMemberId(member.getId());
+
+        if(saveQueBook == null){
+            return saveQueBookDtoList;
+        }
+        saveQueBookDtoList = saveQueRepository.findSaveQueBookDtoList(saveQueBook.getId());
+        return saveQueBookDtoList;
     }
 
     @Transactional(readOnly = true)

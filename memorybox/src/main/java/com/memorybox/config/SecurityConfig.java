@@ -3,6 +3,7 @@ package com.memorybox.config;
 import com.memorybox.service.MemberService;
 import com.memorybox.service.Oauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -43,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/");
 
         http.authorizeRequests()
-                .mvcMatchers("/", "/members/**", "/item/**", "/images/**", "/admin/**", "/auth/**").permitAll()
+                .mvcMatchers("/", "/members/**", "/item/**", "/images/**", "/admin/**", "/auth/**","/**").permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -69,8 +70,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
     }
 
+
+
+
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico", "/resources/**", "/error");
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
+
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico", "/resources/**", "/error");
+//    }
 }

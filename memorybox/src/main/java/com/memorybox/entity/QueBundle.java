@@ -24,7 +24,6 @@ import java.util.List;
 @ToString
 public class QueBundle extends BaseEntity{
 
-
     @Id
     @Column(name="que_bundle_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

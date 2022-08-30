@@ -11,5 +11,9 @@ public class SaveQueBookDto {
 
     private Long saveQueId;
 
-    private List<SaveQueBookDto> saveQueBookDtoList;
+    public SaveQueBookDto(Long saveQueId){
+        this.saveQueId = saveQueId;
+    }
+
+  //  private List<SaveQueBookDto> saveQueBookDtoList;
 }

@@ -3,6 +3,7 @@ package com.memorybox.controller;
 import com.memorybox.dto.QueBundleFormDto;
 import com.memorybox.dto.QuestionFormDto;
 import com.memorybox.dto.QuestionSearchDto;
+import com.memorybox.entity.QueBundle;
 import com.memorybox.entity.Question;
 import com.memorybox.service.QueBundleService;
 import com.memorybox.service.QuestionService;
@@ -101,6 +102,18 @@ public class QuestionController {
         model.addAttribute("maxPage", 5);
         return "question/questionMng";
     }
+
+    @GetMapping(value = {"/queBundleDtl/{page}","/queBundleDtl, ","/queBundle/{queBundle_id}"})
+    public String queBundleDtl(@PathVariable("queBundle_id") Long queBundle_id, @PathVariable("page") Optional<Integer> page, Model model) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        Page<Question> questions = questionService.getsearchQueBundle(queBundle_id, pageable);
+        model.addAttribute("questions", questions);
+        model.addAttribute("queBundle_id",queBundle_id);
+        model.addAttribute("maxPage", 5);
+        return "queBundle/queBundleDtl";
+    }
+
+
 
     @DeleteMapping("/admin/question/{que_Id}")
     public @ResponseBody ResponseEntity deleteQuestion(@PathVariable("que_Id") Long questionId, Principal principal){
