@@ -5,6 +5,7 @@ import com.memorybox.dto.QuestionDto;
 import com.memorybox.dto.SaveQueDto;
 import com.memorybox.service.QuestionService;
 import com.memorybox.service.SaveQueBookService;
+import com.memorybox.service.SaveQueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import java.util.List;
 public class SaveQueBookController {
     private final SaveQueBookService saveQueBookService;
     private final QuestionService questionService;
+    private final SaveQueService saveQueService;
 
     @PostMapping(value = "/saveQue")
     public @ResponseBody ResponseEntity save(@RequestBody @Valid SaveQueDto saveQueDto,
@@ -50,6 +52,17 @@ public class SaveQueBookController {
         return "SaveQueBook/SaveQueBookDtl";
     }
 
+
+    @DeleteMapping(value = "/saveQueBook/{saveQueBookId}/Question/{deleteQueId}")
+    public @ResponseBody ResponseEntity deleteSaveQue(@PathVariable("saveQueBookId") Long saveQuebookId, @PathVariable("deleteQueId") Long queId,
+                                                      Principal principal){
+        Long saveQueId = saveQueService.findSaveQueId(saveQuebookId, queId);
+        if(!saveQueBookService.validateSaveQue(saveQueId, principal.getName())){
+            return new ResponseEntity<String>("문제 삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+        saveQueService.deleteSaveQue(saveQueId);
+        return new ResponseEntity<Long>(saveQueId,HttpStatus.OK);
+    }
 
 
 }
