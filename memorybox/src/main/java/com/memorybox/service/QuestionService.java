@@ -67,6 +67,11 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
+    public Page<Question> getsearchQueBundle(Long queBundle_id, Pageable pageable){
+        return questionRepository.getsearchQueBundle(queBundle_id,  pageable);
+    }
+
+    @Transactional(readOnly = true)
     public boolean validateQuestion(Long questionId, String email){
         Member curMember = memberRepository.findByEmail(email);
         Question question = questionRepository.findById(questionId)
