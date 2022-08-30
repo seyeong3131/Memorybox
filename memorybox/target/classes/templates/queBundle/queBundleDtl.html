@@ -24,12 +24,12 @@
             location.href="/admin/questions/" + page + "?searchQueBundle=" + searchQueBundle;
         }
 
-         function addMyQueBox(obj){
+         function addSaveQueBook(obj){
             var questionId = obj.dataset.id;
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/myQueBox";
+            var url = "/saveQue";
 
             var paramData = {
                 questionId : $("#questionId").val(),
@@ -136,7 +136,7 @@
         <td th:text="${question.regTime}"></td>
         <td>
           <button type="button" class="btn btn-light border border-primary btn-lg" >
-            <span aria-hidden="true" th:data-id="${question.id}" onclick="addMyQueBox(this)">장바구니</span>
+            <span aria-hidden="true" th:data-id="${question.id}" onclick="addSaveQueBook(this)">장바구니</span>
           </button>
         </td>
         <td>

@@ -53,24 +53,24 @@ public class MyQueBoxController {
         return "/myQueBox/myQueBoxList";
     }
 
-    @PatchMapping(value = "/myQueBoxItem/{myQueBoxItemId}")
-    public @ResponseBody ResponseEntity updateMyQueBoxItem(@PathVariable("myQueBoxItemId") Long myQueBoxItemId, Principal principal) {
-        System.out.println(myQueBoxItemId);
-        if (!myQueBoxService.validateMyQueBoxItem(myQueBoxItemId, principal.getName())) {
-            return new ResponseEntity<String>("수정권한이 없습니다.", HttpStatus.FORBIDDEN);
-        }
+//    @PatchMapping(value = "/myQueBoxItem/{myQueBoxItemId}")
+//    public @ResponseBody ResponseEntity updateMyQueBoxItem(@PathVariable("myQueBoxItemId") Long myQueBoxItemId, Principal principal) {
+//        System.out.println(myQueBoxItemId);
+//        if (!myQueBoxService.validateMyQueBoxItem(myQueBoxItemId, principal.getName())) {
+//            return new ResponseEntity<String>("수정권한이 없습니다.", HttpStatus.FORBIDDEN);
+//        }
+//
+//        return new ResponseEntity<Long>(myQueBoxItemId, HttpStatus.OK);
+//    }
 
-        return new ResponseEntity<Long>(myQueBoxItemId, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/myQueBoxItem/{myQueBoxItemId}")
-    public @ResponseBody ResponseEntity deleteMyQueBoxItem(@PathVariable("myQueBoxItemId") Long myQueBoxItemId,
-                                                       Principal principal){
-        if (!myQueBoxService.validateMyQueBoxItem(myQueBoxItemId, principal.getName())) {
-            return new ResponseEntity<String>("수정권한이 없습니다.", HttpStatus.FORBIDDEN);
-        }
-        myQueBoxService.deleteMyQueBoxItem(myQueBoxItemId);
-        return new ResponseEntity<Long>(myQueBoxItemId, HttpStatus.OK);
-    }
+//    @DeleteMapping(value = "/myQueBoxItem/{myQueBoxItemId}")
+//    public @ResponseBody ResponseEntity deleteMyQueBoxItem(@PathVariable("myQueBoxItemId") Long myQueBoxItemId,
+//                                                       Principal principal){
+//        if (!myQueBoxService.validateMyQueBoxItem(myQueBoxItemId, principal.getName())) {
+//            return new ResponseEntity<String>("수정권한이 없습니다.", HttpStatus.FORBIDDEN);
+//        }
+//        myQueBoxService.deleteMyQueBoxItem(myQueBoxItemId);
+//        return new ResponseEntity<Long>(myQueBoxItemId, HttpStatus.OK);
+//    }
 
 }
