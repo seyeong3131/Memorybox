@@ -1,1 +1,3 @@
 com\memorybox\entity\QQuestionImg.class
+com\memorybox\entity\QMyQueBoxItem.class
+com\memorybox\entity\QMyQueBox.class

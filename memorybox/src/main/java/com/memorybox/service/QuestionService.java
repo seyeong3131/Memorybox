@@ -101,7 +101,9 @@ public class QuestionService {
         }
 
         for (Long saveQueId : saveQueIdList){
-            Long questionId = saveQueRepository.findQueIdById(saveQueId);
+            SaveQue saveQue = saveQueRepository.findById(saveQueId)
+                    .orElseThrow(EntityExistsException::new);
+            Long questionId = saveQue.getQuestion().getId();
             Question question = questionRepository.findOneById(questionId);
             QuestionDto questionDto
                     = new QuestionDto(question, questionImgRepository);

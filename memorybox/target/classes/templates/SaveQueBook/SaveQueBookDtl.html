@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
 <!--사용자 스크립트 추가-->
 <th:block layout:fragment="script">
     <script th:inline="javascript">
@@ -9,16 +13,20 @@
     var maxCard;
     $(document).ready(function(){
         count = 6;
-        /*<![CDATA[*/
-            maxCard = /*[[${questionDtoList.size()}]]*/;
-            var queDetail = [];
-            var queBackDetail = [];
-            var queImgUrl = [];
-            for (let i=0; i<maxCount ; i++){
-                queDetail[i] = /*[[${questionDtoList[i].queDetail}]]*/;
-                queBackDetail[i] = /*[[${questionDtoList[i].queBackDetail}]]*/;
-                queImgUrl[i] = /*[[${questionDtoList[i].queImgUrl}]]*/;
-            }
+        var saveQueBookId = /*[[${saveQueBookId}]]*/;
+        maxCard = /*[[${maxCard}]]*/;
+
+        var question = new Object();
+        var questionArray = [];
+
+        /*<!CDATA[*/
+        /*[# th:each="questionDto : ${questionDtoList}"]*/
+        question.queDetail = /*[[${questionDto.queDetail}]]*/;
+        question.queBackDetail = /*[[${questionDto.queBackDetail}]]*/;
+        question.queImgUrl = /*[[${questionDto.queImgUrl}]]*/;
+        question.id = /*[[${questionDto.id}]]*/;
+        questionArray.push(question);
+        /*[/]*/
         /*]]>*/
 
         makeBox();
@@ -55,11 +63,11 @@
             cardInner.appendChild(cardFront);
             cardFront.appendChild(frontImg);
             cardFront.appendChild(frontText);
-            frontImg.setAttribute("src", queImgUrl[i-1]);
-            frontText.append(queDetail[i-1]);
+            frontImg.setAttribute("src", questionArray[i-1].queImgUrl);
+            frontText.append(questionArray[i-1].queDetail);
             cardInner.appendChild(cardBack);
             cardBack.appendChild(backText);
-            backText.append(queBackDetail[i-1]);
+            backText.append(questionArray[i-1].queBackDetail);
             card.appendChild(cardInner);
 
             card.addEventListener('click', function () {
@@ -84,7 +92,7 @@
         });
         leftBox.addEventListener('drop', (e) => {
             e.preventDefault();
-            console.log("왼쪽 박스에 드랍 됨");
+            console.log("왼쪽 박스에 드랍 됨 (다시 보관)");
             document.getElementById('num1').classList.toggle('leftGo');
             setTimeout(function () {
                 var frontcard = document.getElementById('num1');
@@ -118,10 +126,11 @@
         });
         rightBox.addEventListener('drop', (e) => {
             e.preventDefault();
-            console.log("오른쪽 박스에 드랍 됨");
+            console.log("오른쪽 박스에 드랍 됨 (삭제)");
             document.getElementById('num1').classList.toggle('rightGo');
             setTimeout(function () {
                 var frontcard = document.getElementById('num1');
+                deleteSaveQue();
                 frontcard.remove();
                 for (j = 2; j <= 5; j++) {
                     var change = document.getElementById('num' + j);
@@ -165,15 +174,45 @@
         cardInner.appendChild(cardFront);
         cardFront.appendChild(frontImg);
         cardFront.appendChild(frontText);
-        frontImg.setAttribute("src", queImgUrl[count-1]);
-        frontText.append(queDetail[count-1]);
+        frontImg.setAttribute("src", questionArray[count-1].queImgUrl);
+        frontText.append(questionArray[count-1].queDetail);
         cardInner.appendChild(cardBack);
         cardBack.appendChild(backText);
-        backText.append(queBackDetail[count-1]);
+        backText.append(questionArray[count-1].queBackDetail);
         count++;
         card.appendChild(cardInner);
 
         return card;
+    }
+
+    function deleteSaveQue(){
+        var objIndex = queDetail.indexOf($("#num1").child(".card-front").child(":first").innerText ,1);
+        var deleteQueId = questionArray[objId].id;
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var url = "/saveQueBook/" + saveQueBookId + "/Question/" + deleteQueId;
+
+        $.ajax({
+            url : url,
+            type : "DELETE",
+            beforeSend : function(xhr){
+                xhr.setRequestHeader(header, token);
+            },
+            dataType : "json",
+            cache : false,
+            success : function(result, status){
+                location.href = '/saveQueBook/' + saveQueBookId;
+            },
+            error: function(jqXHR, status, error){
+                if(jqXHR.status == '401'){
+                    alert('로그인 이후 사용해주세요');
+                    location.href = '/login';
+                }else{
+                    alert(jqXHR.responseText);
+                }
+            }
+        });
     }
     </script>
 </th:block>

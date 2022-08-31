@@ -50,9 +50,9 @@ public class MainController {
 
         if(principal != null && saveQueBookService.saveQueBookCheck(memberService
                 .findMemberId(principal.getName()))) {
-            List<SaveQueAlertDto> saveQueDtoList = saveQueService.findMySaveQueList(saveQueBookService.findSaveQueBookId(memberService
+            List<SaveQueAlertDto> saveQueAlertDtoList = saveQueService.findMySaveQueList(saveQueBookService.findSaveQueBookId(memberService
                     .findMemberId(principal.getName())));
-            model.addAttribute("saveQueAlertDtoList", saveQueDtoList);
+            model.addAttribute("saveQueAlertDtoList", saveQueAlertDtoList);
         }
 
         Page<MainQueBundleDto> queBundles = queBundleService.getMainQueBundlePage(queBundleSearchDto, pageable);

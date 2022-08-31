@@ -18,6 +18,6 @@ public class QuestionDto {
         this.id = question.getId();
         this.queDetail = question.getQueDetail();
         this.queBackDetail = question.getQueBackDetail();
-        this.queImgUrl = questionImgRepository.findImgUrlByQuestionId(question.getId());
+        this.queImgUrl = questionImgRepository.findByQuestionId(question.getId()).getImgUrl();
     }
 }

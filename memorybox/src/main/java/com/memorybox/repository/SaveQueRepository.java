@@ -15,7 +15,6 @@ public interface SaveQueRepository extends JpaRepository<SaveQue, Long> {
 
     SaveQue findBySaveQueBookIdAndQuestionId(Long saveQueBookId, Long QuestionId);
     List<SaveQue> findBySaveQueBookId(Long saveQueBookId);
-    Long findQueIdById(Long id);
 
     @Query("select new com.memorybox.dto.SaveQueBookDto(ci.id) " +
             "from SaveQue ci "+

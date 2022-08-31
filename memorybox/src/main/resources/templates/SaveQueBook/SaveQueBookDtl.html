@@ -13,19 +13,20 @@
     var maxCard;
     $(document).ready(function(){
         count = 6;
-        /*<![CDATA[*/
-            var saveQueBookId = /*[[${saveQueBookId}]]*/;
-            maxCard = /*[[${questionDtoList.size()}]]*/;
-            var queDetail = [];
-            var queBackDetail = [];
-            var queImgUrl = [];
-            var queId = [];
-            for (let i=0; i<maxCount ; i++){
-                queDetail[i] = /*[[${questionDtoList[i].queDetail}]]*/;
-                queBackDetail[i] = /*[[${questionDtoList[i].queBackDetail}]]*/;
-                queImgUrl[i] = /*[[${questionDtoList[i].queImgUrl}]]*/;
-                queId[i] = /*[[${questionDtoList[i].id}]]*/;
-            }
+        var saveQueBookId = /*[[${saveQueBookId}]]*/;
+        maxCard = /*[[${maxCard}]]*/;
+
+        var question = new Object();
+        var questionArray = [];
+
+        /*<!CDATA[*/
+        /*[# th:each="questionDto : ${questionDtoList}"]*/
+        question.queDetail = /*[[${questionDto.queDetail}]]*/;
+        question.queBackDetail = /*[[${questionDto.queBackDetail}]]*/;
+        question.queImgUrl = /*[[${questionDto.queImgUrl}]]*/;
+        question.id = /*[[${questionDto.id}]]*/;
+        questionArray.push(question);
+        /*[/]*/
         /*]]>*/
 
         makeBox();
@@ -62,11 +63,11 @@
             cardInner.appendChild(cardFront);
             cardFront.appendChild(frontImg);
             cardFront.appendChild(frontText);
-            frontImg.setAttribute("src", queImgUrl[i-1]);
-            frontText.append(queDetail[i-1]);
+            frontImg.setAttribute("src", questionArray[i-1].queImgUrl);
+            frontText.append(questionArray[i-1].queDetail);
             cardInner.appendChild(cardBack);
             cardBack.appendChild(backText);
-            backText.append(queBackDetail[i-1]);
+            backText.append(questionArray[i-1].queBackDetail);
             card.appendChild(cardInner);
 
             card.addEventListener('click', function () {
@@ -173,11 +174,11 @@
         cardInner.appendChild(cardFront);
         cardFront.appendChild(frontImg);
         cardFront.appendChild(frontText);
-        frontImg.setAttribute("src", queImgUrl[count-1]);
-        frontText.append(queDetail[count-1]);
+        frontImg.setAttribute("src", questionArray[count-1].queImgUrl);
+        frontText.append(questionArray[count-1].queDetail);
         cardInner.appendChild(cardBack);
         cardBack.appendChild(backText);
-        backText.append(queBackDetail[count-1]);
+        backText.append(questionArray[count-1].queBackDetail);
         count++;
         card.appendChild(cardInner);
 
@@ -186,7 +187,7 @@
 
     function deleteSaveQue(){
         var objIndex = queDetail.indexOf($("#num1").child(".card-front").child(":first").innerText ,1);
-        var deleteQueId = queId[objId];
+        var deleteQueId = questionArray[objId].id;
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
