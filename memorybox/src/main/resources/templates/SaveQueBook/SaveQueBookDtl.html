@@ -11,13 +11,16 @@
     <script th:inline="javascript">
     var count;
     var maxCard;
+    var saveQueBookId;
+    var question;
+    var questionArray
     $(document).ready(function(){
         count = 6;
-        var saveQueBookId = /*[[${saveQueBookId}]]*/;
+        saveQueBookId = /*[[${saveQueBookId}]]*/;
         maxCard = /*[[${maxCard}]]*/;
 
-        var question = new Object();
-        var questionArray = [];
+        question = new Object();
+        questionArray = [];
 
         /*<!CDATA[*/
         /*[# th:each="questionDto : ${questionDtoList}"]*/
