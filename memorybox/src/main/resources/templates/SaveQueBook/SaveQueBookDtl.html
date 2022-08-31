@@ -67,6 +67,7 @@
             cardFront.appendChild(frontImg);
             cardFront.appendChild(frontText);
             frontImg.setAttribute("src", questionArray[i-1].queImgUrl);
+            frontImg.setAttribute("class", "cardImg");
             frontText.append(questionArray[i-1].queDetail);
             cardInner.appendChild(cardBack);
             cardBack.appendChild(backText);
@@ -178,6 +179,7 @@
         cardFront.appendChild(frontImg);
         cardFront.appendChild(frontText);
         frontImg.setAttribute("src", questionArray[count-1].queImgUrl);
+        frontImg.setAttribute("class", "cardImg");
         frontText.append(questionArray[count-1].queDetail);
         cardInner.appendChild(cardBack);
         cardBack.appendChild(backText);
@@ -189,8 +191,7 @@
     }
 
     function deleteSaveQue(){
-        var objIndex = queDetail.indexOf($("#num1").child(".card-front").child(":first").innerText ,1);
-        var deleteQueId = questionArray[objId].id;
+        var deleteQueId = questionArray[0].id;
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
@@ -231,6 +232,9 @@
             border: 1px solid #222;
             margin-bottom: 30px;
             padding: 0;
+        }
+        .cardImg{
+            width: 150px;
         }
 
         .card {
