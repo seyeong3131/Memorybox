@@ -36,6 +36,51 @@
             height: 20px;
             width: 50px;
         }
+        .table{
+            margin : 10px;
+            padding : 10px;
+            border-collapse: separate;
+            border-spacing: 15px 15px;
+
+        }
+
+        ul{
+        list-style-type : none;
+        }
+
+        li{
+        list-height:2.0;
+        }
+        .page-item{
+         margin-top: 20px;
+        }
+
+        td,th{
+            padding: 10px;
+            text-align:center;
+            background-color : #00EBFF;
+            border : 1px solid #000;
+        }
+
+        .pagination justify-content-center{
+
+        }
+
+        .page-link{
+        }
+
+        .form-inline justify-content-center{
+        }
+
+        .form-control{
+
+        }
+
+
+        #searchBtn{
+
+        }
+
     </style>
 </th:block>
 
@@ -92,7 +137,7 @@
                 <option th:each="qCate : ${qCategory}"  th:value="${qCate}" th:text="${qCate.description}">카테고리</option>
             </select>
             <select th:field="*{searchBy}" class="form-control" style="width:auto;">
-                <option value="queBundleNm">상품명</option>
+                <option value="queBundleNm">문제명</option>
             </select>
             <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
             <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
